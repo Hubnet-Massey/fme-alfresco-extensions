@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>fme-preview-dialog-contents</shortname>
+  <description>Creates the HTML form for the image preview</description>
+  <url>/fme/modules/preview-dialog?nodeRef={nodeRef}</url>
+</webscript>

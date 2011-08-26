@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>documents-for-given-tag-configuration-post</shortname>
+  <description>POST webscript of configuration dialog for documentsForTag dashlet</description>
+  <url>/modules/dashlet/gallery/config/{componentId}</url>
+  <format default="json">argument</format>
+</webscript>

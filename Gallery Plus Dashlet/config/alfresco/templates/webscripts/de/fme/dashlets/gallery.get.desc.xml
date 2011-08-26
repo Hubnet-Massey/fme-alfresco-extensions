@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>gallery-plus-images</shortname>
+  <description>Retrieves thumbnails for fme Gallery Dashlet</description>
+  <url>/de/fme/dashlets/gallery?thumbName={thumbName?}&amp;filterPath={filterPath?}&amp;filterTags={filterTags?}&amp;max={max?}&amp;albumNodeRef={$albumNodeRef?}&amp;sort={$sort?}&amp;sortOrder={sortOrder}&amp;skip={$skip?}</url>
+  <format default="json">extension</format>  
+  <authentication>user</authentication>
+  <transaction>none</transaction>
+</webscript>

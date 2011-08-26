@@ -1,0 +1,6 @@
+<config>
+	<title>Gallery Plus Dashlet</title>
+	<rowsPerPage>10</rowsPerPage>
+	<background>white</background>
+	<thumbName>galpThumb120</thumbName>
+</config>	

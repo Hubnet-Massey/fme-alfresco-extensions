@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="galp:galleryPlusModel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+
+	<description>Gallery Plus Model</description>
+	<author>Florian Maul (fme AG)</author>
+	<version>1.0</version>
+
+	<imports>
+		<!-- Import Alfresco Dictionary Definitions -->
+		<import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d" />
+		<!-- Import Alfresco Content Domain Model Definitions -->
+		<import uri="http://www.alfresco.org/model/content/1.0" prefix="cm" />
+		<!-- Import Alfresco Datalist Domain Model Definitions -->
+		<import uri="http://www.alfresco.org/model/datalist/1.0" prefix="dl" />
+	</imports>
+
+	<!-- Introduction of new namespaces defined by this model -->
+	<namespaces>
+		<namespace uri="http://www.fme.de/model/galleryplus/1.0" prefix="galp" />
+	</namespaces>
+
+	<aspects>
+		<aspect name="galp:album">
+			<title>Album</title>
+			<description>Album folder for the Gallery Plus dashlet</description>
+		</aspect>
+	</aspects>
+</model>

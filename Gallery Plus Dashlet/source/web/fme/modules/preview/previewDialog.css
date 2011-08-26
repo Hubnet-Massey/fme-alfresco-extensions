@@ -1,0 +1,253 @@
+
+.yui-panel.darkpanel {
+	border: 1px solid #444;
+	border-radius: 1em;
+	
+	/* prevent selection with double-click */
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;		
+}
+
+.yui-panel.darkpanel .bd {
+	background-color: #222;
+	background-color: rgba(32, 32, 32, 0.95); color : #eee;
+	font-size: 10pt;
+	border-radius: 1em;
+	box-shadow: 6px 6px 10px black;
+	border-left: 1px solid #444;
+	border-right: 1px solid #444;
+	padding: 1em;
+	color: #ccc;
+
+}
+
+.yui-panel.darkpanel .ft {
+	display: none;
+}
+
+.yui-panel.darkpanel .hd {
+	display: none;
+}
+
+.yui-panel.darkpanel .imagearea {
+	width: 76%;
+	height: 100%;
+}
+
+.yui-panel.darkpanel .imagearea .detailsAction {
+	background-image:
+		url(../../../components/documentlibrary/images/folder-metadata-16.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	color: #ccc;
+	margin-right:0.5em;
+}
+
+.yui-panel.darkpanel .imagearea .downloadAction {
+	background-image:
+		url(../../../components/documentlibrary/images/download-16.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	color: #ccc;
+}
+
+.yui-panel.darkpanel .commentarea {
+	width: 24%;
+	height: 90%;
+	float: right;
+	opacity: 1;
+	overflow: auto;
+	overflow-x: hidden;
+	margin-top: 40px;
+}
+
+.yui-panel.darkpanel .commentarea .newcomment {
+	clear: left;
+	position: relative;
+}
+
+.yui-panel.darkpanel .commentarea .newcomment #speecharrow {
+	height: 16px;
+	width: 16px;
+	position: absolute;
+	left: 20px;
+	top: 36px;
+}
+
+.yui-panel.darkpanel .commentarea .newcomment .speechbubble {
+	border-radius: 1em;
+	border: none;
+	background-color: #eee;
+	margin-left: 36px;
+}
+
+.yui-panel.darkpanel .commentarea .newcomment .commentbuttons {
+	margin-top:0.5em;
+	float:right;
+}
+
+.yui-panel.darkpanel .commentarea .newcomment .speechbubble textarea {
+	width: 95%;
+	height: 60px;
+	resize: none;
+	border: none;
+	outline: none;
+	background-color: #eee;
+	margin: 4px;
+}
+
+/* works in IE7+ and modern browsers */
+.yui-panel.darkpanel .commentarea .newcomment .speechbubble textarea[disabled] {
+	color: #ccc;
+}
+
+/* IE8+ and modern browsers */
+.yui-panel.darkpanel .commentarea .newcomment .speechbubble textarea[disabled="disabled"] {
+	color: #ccc;
+} 
+
+.yui-panel.darkpanel .comments {
+	color: #eee;
+}
+
+.yui-panel.darkpanel .comment {
+	margin-top: 0.5em;
+	padding-bottom: 0.5em;
+	clear: left;
+}
+
+.yui-panel.darkpanel .commentarea .avatar {
+	float: left;
+}
+
+.yui-panel.darkpanel .commentarea .commenttext {
+	margin-left: 38px;
+}
+
+.yui-panel.darkpanel .commentarea .avatar img {
+	width: 32px;
+	height: 32px;
+	margin-bottom: 4px;
+}
+
+.yui-panel.darkpanel .comment .author {
+	display: inline;
+}
+
+.yui-panel.darkpanel .comment .author a {
+	color: #eee;
+	font-weight: bold;
+}
+
+.yui-panel.darkpanel .comment .author a:hover {
+	color: #eee;
+	text-decoration: underline;
+}
+
+.yui-panel.darkpanel .comment .content {
+	color: #ccc;
+	display: inline;
+}
+
+.yui-panel.darkpanel .comment .content p {
+	display: inline;
+}
+
+.yui-panel.darkpanel .comment .date {
+	display: inline;
+	color: #666;
+	font-size: 8pt;
+}
+
+.yui-panel.darkpanel .imageborder {
+	display: block;
+	position: relative;
+	height: 600px;
+	width: 800px;
+	text-align: center;
+	
+	/* prevent selection with double-click */
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;	
+}
+
+/* reflection not working properly 
+.yui-panel.darkpanel .imageborder img {
+	-webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(255,255,255,0.2)));
+	overflow:hidden;
+}
+ */
+ 
+.yui-panel.darkpanel .imagefooter {
+	margin-top:1em;
+	border-top: 1px solid #333;
+	padding-top: 1em;
+	margin-right: 20px;
+}
+
+.yui-panel.darkpanel .imagepreview {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.yui-panel.darkpanel .leftarrow {
+	top: 0px;
+	position: absolute;
+	width: 200px;
+	height: 600px;
+	opacity: 0;
+	filter: alpha(opacity = 0);
+	left: 20px;
+	background-image: url("left-arrow.png");
+	background-repeat: no-repeat;
+	background-position: 0px 250px;
+	cursor: hand;
+	-moz-transition: opacity 0.3s;
+	-webkit-transition: opacity 0.3s;
+	-o-transition: opacity 0.3s;
+	transition: opacity 0.3s;
+
+}
+
+.yui-panel.darkpanel .leftarrow:hover {
+	opacity: 0.6;
+	filter: alpha(opacity = 60);
+}
+
+.yui-panel.darkpanel .rightarrow {
+	top: 0px;
+	position: absolute;
+	width: 200px;
+	height: 600px;
+	left: 600px;
+	background-image: url("right-arrow.png");
+	background-repeat: no-repeat;
+	background-position: 140px 250px;
+	cursor: hand;
+	opacity: 0;
+	filter: alpha(opacity = 0);
+	-moz-transition: opacity 0.3s;
+	-webkit-transition: opacity 0.3s;
+	-o-transition: opacity 0.3s;
+	transition: opacity 0.3s;
+}
+
+.yui-panel.darkpanel .rightarrow:hover {
+	opacity: 0.6;
+	filter: alpha(opacity = 60);
+}
+
+.yui-panel.darkpanel .title {
+	font-size: 14pt;
+	margin-bottom: 1em;
+}
+
+.yui-panel.darkpanel .imagearea .actions {
+	float:right;
+}

@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+<beans>
+
+	<!-- Registration of the gallery plus models -->
+	<bean id="gallery-plus.dictionaryBootstrap" parent="dictionaryModelBootstrap"
+		depends-on="dictionaryBootstrap">
+		<property name="models">
+			<list>
+				<value>alfresco/extension/gallery-plus-model.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Property files defined for the model -->
+	<bean id="gallery-plus.resourceBundle" class="org.alfresco.i18n.ResourceBundleBootstrapComponent">
+		<property name="resourceBundles">
+			<list>
+				<value>alfresco.extension.gallery-plus-model</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Thumbnail definition "galpThumb120" for thumbnails with a height of 120 pixels -->
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="thumbnailRegistry" />
+		<property name="targetMethod" value="addThumbnailDefinition" />
+		<property name="arguments">
+			<list>
+				<bean class="org.alfresco.repo.thumbnail.ThumbnailDefinition">
+					<property name="name" value="galpThumb120" />
+					<property name="mimetype" value="image/jpeg" />
+					<property name="transformationOptions">
+						<bean
+							class="org.alfresco.repo.content.transform.magick.ImageTransformationOptions">
+							<property name="resizeOptions">
+								<bean
+									class="org.alfresco.repo.content.transform.magick.ImageResizeOptions">
+									<property name="height" value="120" />
+									<property name="width" value="2000" />
+									<property name="maintainAspectRatio" value="true" />
+									<property name="resizeToThumbnail" value="true" />
+								</bean>
+							</property>
+						</bean>
+					</property>
+					<property name="placeHolderResourcePath"
+						value="alfresco/extension/thumbnail/thumbnail_placeholder_galpThumb120.jpg" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Thumbnail definition "galpThumb200" for thumbnails with a height of 200 pixels -->
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="thumbnailRegistry" />
+		<property name="targetMethod" value="addThumbnailDefinition" />
+		<property name="arguments">
+			<list>
+				<bean class="org.alfresco.repo.thumbnail.ThumbnailDefinition">
+					<property name="name" value="galpThumb200" />
+					<property name="mimetype" value="image/jpeg" />
+					<property name="transformationOptions">
+						<bean
+							class="org.alfresco.repo.content.transform.magick.ImageTransformationOptions">
+							<property name="resizeOptions">
+								<bean
+									class="org.alfresco.repo.content.transform.magick.ImageResizeOptions">
+									<property name="height" value="200" />
+									<property name="width" value="2000" />
+									<property name="maintainAspectRatio" value="true" />
+									<property name="resizeToThumbnail" value="true" />
+								</bean>
+							</property>
+						</bean>
+					</property>
+					<property name="placeHolderResourcePath"
+						value="alfresco/extension/thumbnail/thumbnail_placeholder_galpThumb120.jpg" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Thumbnail definition "galpPreview800" for preview images with a size of 800x600 pixels -->
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="thumbnailRegistry" />
+		<property name="targetMethod" value="addThumbnailDefinition" />
+		<property name="arguments">
+			<list>
+				<bean class="org.alfresco.repo.thumbnail.ThumbnailDefinition">
+					<property name="name" value="galpPreview800" />
+					<property name="mimetype" value="image/jpeg" />
+					<property name="transformationOptions">
+						<bean
+							class="org.alfresco.repo.content.transform.magick.ImageTransformationOptions">
+							<property name="resizeOptions">
+								<bean
+									class="org.alfresco.repo.content.transform.magick.ImageResizeOptions">
+									<property name="height" value="600" />
+									<property name="width" value="800" />
+									<property name="maintainAspectRatio" value="true" />
+									<property name="resizeToThumbnail" value="false" />
+								</bean>
+							</property>
+						</bean>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Add custom action to extract image dimensions for the thumbnails -->
+	<bean id="galleryPlusThumbnailDimensionAction"
+		class="de.fme.alfresco.dashlets.ThumbnailDimensionActionExecutor"
+		parent="action-executer">
+		<property name="thumbnailService" ref="thumbnailService" />
+		<property name="actionService" ref="actionService" />
+		<property name="publicAction" value="false" />
+	</bean>
+
+	<!--  Add custom aspect to mark a folder as album for the gallery -->	
+    <bean id="galleryPlusAlbumAspect" class="de.fme.alfresco.dashlets.AlbumAspect" init-method="init">
+    	<property name="policyComponent" ref="policyComponent"/>
+    	<property name="nodeService" ref="NodeService"/>
+    	<property name="actionService" ref="ActionService"/>
+    	<property name="thumbnailService" ref="thumbnailService"/>
+    	<property name="thumbnailNames">
+			<list>
+				<!-- These Thumbnails will be automatically generated for an Album -->
+        		<value>galpThumb120</value>
+        		<value>galpThumb200</value>
+        	</list>
+    	</property>
+    </bean>
+    	
+</beans>
