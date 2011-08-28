@@ -27,7 +27,7 @@
 		}
 	}
 		
-	logger.warn(filter);
+	// DEBUG logger.warn(filter);
 	
 	if (args.filterTags) {
 		 filter += " +PATH:\"/cm:taggable/cm:" + search.ISO9075Encode(args.filterTags) + "/member\" ";

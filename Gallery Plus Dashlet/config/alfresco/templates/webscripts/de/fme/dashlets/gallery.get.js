@@ -72,7 +72,8 @@
 			filter += "+PATH:\"" + args.filterPath.replace(/:/g, "\\:")+"\" ";
 		}
 	}
-	logger.warn(filter);
+
+	// DEBUG logger.warn(filter);
 	
 	if (args.albumNodeRef) {
 		filter += "+PARENT:\"" + args.albumNodeRef.replace(/:/g, "\\:")+"\" ";

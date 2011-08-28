@@ -15,14 +15,16 @@ The add-on has been developed to install on top of an existing Alfresco
 
 An Ant build script is provided to build a JAR file containing the 
 custom files, which can then be installed into the 'tomcat/shared/lib' folder 
-of your Alfresco installation.
+of your Alfresco installation. Since this dashlet also contains repository 
+extends (Action, Behaviour) you also have to copy the jar file to the 
+'tomcat/webapps/alfresco/WEB-INF/lib' folder.
 
 To build the JAR file, run the following command from the base project 
 directory.
 
-    ant clean dist-jar
+    ant -Dalfereco.sdk.dir=<path to Alfreso SDK> clean dist-jar
 
-The command should build a JAR file named hello-world-dashlet.jar
+The command should build a JAR file named fme-gallery-plus-dashlet.jar
 in the 'build/dist' directory within your project.
 
 To deploy the dashlet files into a local Tomcat instance for testing, you can 
@@ -37,8 +39,7 @@ resources in the JAR file are picked up.
 Using the dashlet
 -----------------
 
-Log in to Alfresco Share and navigate to your user dashboard. Click the 
-Customize Dashboard button to edit the contents of the dashboard and drag 
-the dashlet into one of the columns from the list of dashlets.
+Log in to Alfresco Share and navigate to your user or a site dashboard. 
+Click the Customize Dashboard button to edit the contents of the dashboard 
+and drag the dashlet into one of the columns from the list of dashlets.
 
-As well as user dashboards the dashlet can also be used on site dashboards.
