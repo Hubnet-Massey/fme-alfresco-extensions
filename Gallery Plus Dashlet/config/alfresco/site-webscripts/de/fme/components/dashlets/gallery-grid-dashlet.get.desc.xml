@@ -1,7 +1,6 @@
 <webscript>
    <shortname>Gallery Plus</shortname>
    <description>Webscript that returns the thumbnail grid for the gallery dashlet</description>
-   <!-- one of dashlet, site-dashlet or user-dashlet -->
    <family>dashlet</family>
    <url>/fme/components/dashlets/gallery-plus</url>
 </webscript>

@@ -418,6 +418,7 @@ FME.util = {
 			});
 
 		},
+		
 		/**
 		 * Fired by YUI when parent element is available for scripting
 		 *
