@@ -365,11 +365,13 @@ FME.util = {
 			if(selectedAlbum) {
 				// If an album was selected use it for the query
 				Dom.setStyle(this.widgets.backToAlbumsLink, "display", "inline");
-				this.selectedAlbum = selectedAlbum;
+				this.selectedAlbum = selectedAlbum.nodeRef;
+				this.updateTitle(selectedAlbum.title);
 			} else {
 				if(!loadmore) {
 					Dom.setStyle(this.widgets.backToAlbumsLink, "display", "none");
 					this.selectedAlbum = (this.options.singleAlbumNodeRef != "all") ? this.options.singleAlbumNodeRef : "";
+					this.updateTitle();
 				}
 			}
 			
@@ -468,7 +470,21 @@ FME.util = {
 
 			Dom.setStyle(scrollArea, "background-color", this.options.background);
 
+			this.updateTitle();
 			this.updateView();
+		},
+	
+		/**
+		 * Updates the title of the dashlet and displays the album name if applicable
+		 */
+		updateTitle : function FdGP_updateTitle(albumTitle) {
+			var title = this.options.title;
+			
+			if (albumTitle) {
+				title += " / " + albumTitle;
+			}
+			
+			Dom.get(this.id + "-title-text").innerHTML = title;
 		},
 		
 		/**
@@ -486,6 +502,7 @@ FME.util = {
 		 * Loads the list of albums for display in the albums viewmode
 		 */
 		displayAlbums : function FdGP_displayAlbums() {
+			this.updateTitle();
 			this.currentViewmode = this.constants.VIEWMODE_ALBUMS;
 			var albumsUrl = Alfresco.constants.PROXY_URI + "de/fme/dashlets/gallery-albums?filterPath={filterPath}&filterTags={filterTags}";
 			albumsUrl = YAHOO.lang.substitute(albumsUrl, {
@@ -534,11 +551,14 @@ FME.util = {
 				var stack = document.createElement("div");
 				Dom.addClass(stack, "image_stack");
 
+				// If only one preview, show as middle image (index=1)
+				var startIndex = (album.previews.length == 1) ? 1 : 0;  
+
 				// each albums stack consists of 3 images 
 				for(var i = 0; i < 3; i++) {
 					if(album.previews[i]) {
 						var image = document.createElement("img");
-						Dom.addClass(image, "photo" + (i + 1));
+						Dom.addClass(image, "photo" + (startIndex + i + 1));
 						image.src = Alfresco.constants.PROXY_URI + "api/node/" + album.previews[i].replace("://", "/") + "/content/thumbnails/galpThumb200?c=force";
 						stack.appendChild(image);
 					}
@@ -552,7 +572,7 @@ FME.util = {
 				// when an album is clicked the whole image area is faded out
 				Event.addListener(stack, "click", function(e, ctx) {
 					ctx.gallery.fadeOutImageArea.call(ctx.gallery);
-					ctx.gallery.loadImages(false, ctx.album.nodeRef);
+					ctx.gallery.loadImages(false, ctx.album);
 				}, {
 					gallery : this,
 					album : album
@@ -609,7 +629,7 @@ FME.util = {
 							if(obj) {
 								this.options = YAHOO.lang.merge(this.options, obj);
 							}
-							Dom.get(this.id + "-title-text").innerHTML = this.options.title;
+							this.updateTitle();
 							Dom.setStyle(this.widgets.scrollArea, "background-color", this.options.background);
 							this.currentViewmode = this.options.viewmode;
 							this.updateView();
