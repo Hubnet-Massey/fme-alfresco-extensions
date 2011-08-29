@@ -235,7 +235,7 @@ public class TopXSearchComponent {
 				searchParameters.setMaxItems(Integer.valueOf(maxItems));
 				// does not work at the moment-> manuelly sort on Node-Object
 				// level.
-				// searchParameters.addSort("@topx\\:hitcount", false);
+				searchParameters.addSort("@topx\\:hitcount", false);
 				return searchParameters;
 			}
 

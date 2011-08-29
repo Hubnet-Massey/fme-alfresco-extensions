@@ -39,6 +39,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -84,6 +85,7 @@ public class TopXUpdateComponent {
 	 * @throws IllegalStateException
 	 * @throws SecurityException
 	 */
+	@SuppressWarnings("unchecked")
 	public Integer increaseHitcount(final NodeRef nodeRef, final String userName, final QName counterProperty,
 			final QName counterDateProperty, final QName counterUserProperty) throws NotSupportedException,
 			SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException,
@@ -104,14 +106,18 @@ public class TopXUpdateComponent {
 			} else {
 				boolean shouldCount = true;
 				Map<QName, Serializable> properties = nodeService.getProperties(nodeRef);
+				Serializable usersValue = properties.get(counterUserProperty);
 
-				@SuppressWarnings("unchecked")
-				List<String> users = (List<String>) properties.get(counterUserProperty);
+				List<String> users;
+				if (!(usersValue instanceof List)) {
+					users = Lists.newArrayList((String) usersValue);
+				} else {
+					users = (List<String>) usersValue;
+				}
 
 				if (users != null) {
 					int userIndex = users.indexOf(userName);
 					if (userIndex != -1) {
-						@SuppressWarnings("unchecked")
 						List<Date> counterDates = (List<Date>) properties.get(counterDateProperty);
 						Date lastUserReadDate = counterDates.get(userIndex);
 						// only count one download for a

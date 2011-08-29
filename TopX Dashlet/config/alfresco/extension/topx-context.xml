@@ -28,6 +28,9 @@
 		<property name="filter">
 			<ref bean="policyBehaviourFilter" />
 		</property>
+		<property name="transactionService">
+			<ref bean="TransactionService" />
+		</property>
 	</bean>
 
 	<bean id="topxSearchComponent" class="de.fme.topx.component.TopXSearchComponent"

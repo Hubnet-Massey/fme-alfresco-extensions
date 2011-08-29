@@ -18,8 +18,6 @@
         /source/web - All static resource files, e.g. CSS, JS (optional)
         /source/java - All Java source files (optional)
         
-    For building AMP files, the files module.properties and file-mapping.properties are also required
-    in the project's root directory.
     
     During the build process, a temporary 'build' directory will be created in the base 
     project directory. This may be removed at any time using the 'clean' target.
@@ -210,6 +208,11 @@
 		<jar destfile="${dist.dir}/${jar.name}">
 			<fileset dir="${build.jar.dir}" />
 		</jar>
+		
+		<copy todir="${dist.dir}">
+			<fileset dir="${basedir}/lib/jackson" includes="${build.res.includes}" excludes="${build.res.excludes}" />
+		</copy>
+		
 	</target>
 
 	<!--
@@ -240,15 +243,20 @@
 		<copy todir="${build.zip.dir}/${build.res.dir}">
 			<fileset dir="${res.dir}" includes="${build.res.includes}" excludes="${build.res.excludes}" />
 		</copy>
+		
+		<copy todir="${build.zip.dir}/${build.lib.dir}">
+			<fileset dir="${basedir}/lib/jackson" includes="${build.res.includes}" excludes="${build.res.excludes}" />
+		</copy>
+			
 		<!-- Minify JS -->
 		<yuicompress fromdir="${res.dir}" todir="${build.zip.dir}/${build.res.dir}" excludes="**/*-min.js" warn="${yuicompress.warn}">
 			<include name="**/*.js" />
-			<exclude name="**/swfobject.js" />
 		</yuicompress>
 	</target>
 
 	<target name="build-zip-prepare">
 		<mkdir dir="${build.zip.dir}/${build.classes.dir}" />
+		<mkdir dir="${build.zip.dir}/${build.lib.dir}" />
 		<mkdir dir="${build.zip.dir}/${build.res.dir}" />
 	</target>
 
@@ -262,58 +270,6 @@
 	<target name="dist-zip-tomcat" depends="clean, prepare, build-zip-tomcat" description="Build a ZIP file containing the customisations that can be deployed in an existing Tomcat installation">
 		<zip destfile="${dist.dir}/${zip.name}">
 			<fileset dir="${build.zip.dir}" />
-		</zip>
-	</target>
-
-	<!--
-        Assemble the configuration and resource files in an AMP file structure. The files
-        module.properties and file-mapping.properties must be present in the root of the 
-        project.
-        
-        This creates a structure which can be deployed into an exising share.war file using the 
-        Alfresco Module Management Tool (MMT). See http://wiki.alfresco.com/wiki/AMP_Files.
-        
-        This mechanism is compatible with all versions of Alfresco Share and can therefore be 
-        used as an alternative to the JAR extension mechanism introduced in version 3.3.
-        
-        Note that this mechanism will place files directly into the webapp structure when the 
-        AMP is deployed, rather than the extension mechanisms used by the JAR and ZIP files that
-        ensure files are placed outside the webapp for safety during upgrades, etc.
-        
-        In this case this should be acceptable since the MMT modifies the WAR file itself 
-        rather than just the exploded files, and AMPs can always be re-applied if needed.
-        
-        In version 3.3 and above the JAR file mechanism is recommended as an alternative for all
-        non-complex extensions.
-    -->
-	<target name="build-amp" description="Assemble the configuration and resource files in an AMP file structure">
-
-		<!-- Copy properties files -->
-		<copy todir="${build.amp.dir}" file="${amp.file.properties}" failonerror="true" />
-		<copy todir="${build.amp.dir}" file="${amp.file.mappings}" failonerror="true" />
-
-		<!-- Copy config files -->
-		<mkdir dir="${build.amp.dir}/config" />
-		<copy todir="${build.amp.dir}/config">
-			<fileset dir="${config.dir}" includes="${config.includes}" excludes="${config.excludes}" />
-		</copy>
-
-		<!-- Copy resource files -->
-		<mkdir dir="${build.amp.dir}/web" />
-		<copy todir="${build.amp.dir}/web">
-			<fileset dir="${res.dir}" includes="${build.res.includes}" excludes="${build.res.excludes}" />
-		</copy>
-
-		<!-- Minify JS -->
-		<yuicompress fromdir="${res.dir}" todir="${build.amp.dir}/web" excludes="**/*-min.js" warn="${yuicompress.warn}">
-			<include name="**/*.js" />
-		</yuicompress>
-	</target>
-
-	<!-- Build the AMP file -->
-	<target name="dist-amp" depends="clean, prepare, build-amp" description="Build an AMP file containing all customisations">
-		<zip destfile="${dist.dir}/${amp.name}">
-			<fileset dir="${build.amp.dir}" />
 		</zip>
 	</target>
 
@@ -350,6 +306,7 @@
 				<exclude name="**/classes/org/springframework/extensions/surf/**" />
 			</fileset>
 		</copy>
+		
 		<echo message="Copying Share files" />
 		<copy todir="${tomcat.share.home}" includeEmptyDirs="false">
 			<fileset dir="${build.zip.dir}">
@@ -364,7 +321,8 @@
 			<fileset dir="${build.local.classes.dir}" includes="**/*.class">
 			</fileset>
 		</copy>
-		<!-- copy additional jar files to shared/lib-->
+		
+		<!-- copy additional jackson jar files to shared/lib-->
 		<copy todir="${tomcat.repo.home}/shared/lib" includeEmptyDirs="false">
 			<fileset dir="${basedir}/lib/jackson" includes="**/*.jar" />
 		</copy>
@@ -383,7 +341,7 @@
 		<copy todir="${tomcat.share.home}/${build.lib.dir}">
 			<fileset file="${dist.dir}/${jar.name}" />
 		</copy>
-		
+
 		<!-- copy additional jar files to shared/lib-->
 		<copy todir="${tomcat.repo.home}/shared/lib" includeEmptyDirs="false">
 			<fileset dir="${basedir}/lib/jackson" includes="**/*.jar" />
