@@ -1,5 +1,0 @@
-<webscript>
-  <shortname>documents-for-given-tag-configuration</shortname>
-  <description>Configuration dialog for documentsForTag dashlet</description>
-  <url>/modules/dashlet/documentsForTag/config</url>
-</webscript>

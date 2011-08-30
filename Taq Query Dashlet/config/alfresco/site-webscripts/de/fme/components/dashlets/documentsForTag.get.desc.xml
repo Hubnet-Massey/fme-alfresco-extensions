@@ -1,6 +1,0 @@
-<webscript>
-   <shortname>documents-for-given-tag</shortname>
-   <description>generates a list of documents for given tag.</description>
-	<family>site-dashlet</family>
-   <url>/fme/components/dashlets/documentsForTag</url>
-</webscript>
