@@ -1,0 +1,6 @@
+<config>
+	<tag>demo</tag>
+	<title>Demo Tag List</title>
+	<alwaysDisplayPaginator>false</alwaysDisplayPaginator>
+	<rowsPerPage>10</rowsPerPage>
+</config>	
