@@ -1,0 +1,10 @@
+<alfresco-config>
+	<config evaluator="string-compare" condition="DocumentLibrary">
+		<aspects>
+			<!-- Aspects that a user can see -->
+			<visible>
+				<aspect name="galp:album" />
+			</visible>
+		</aspects>
+	</config>
+</alfresco-config>
