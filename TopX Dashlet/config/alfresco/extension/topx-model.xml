@@ -28,6 +28,11 @@
 					<title>current hitcount for reads</title>
 					<type>d:int</type>
 					<default>0</default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<stored>false</stored>
+						<tokenised>false</tokenised>
+					</index>
 				</property>
 
 				<property name="topx:hitcountDate">

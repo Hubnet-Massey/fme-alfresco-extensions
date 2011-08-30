@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +35,8 @@ import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
 import org.alfresco.service.cmr.repository.Path;
 import org.alfresco.service.cmr.repository.StoreRef;
+import org.alfresco.service.cmr.search.LimitBy;
+import org.alfresco.service.cmr.search.ResultSet;
 import org.alfresco.service.cmr.search.SearchParameters;
 import org.alfresco.service.cmr.search.SearchService;
 import org.alfresco.service.cmr.security.PermissionService;
@@ -92,8 +93,7 @@ public class TopXSearchComponent {
 		this.personService = personService;
 	}
 
-	private SimpleDateFormat formatter = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss");
+	private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	private Map<String, String> displayNamesByMimetype;
 
@@ -162,8 +162,7 @@ public class TopXSearchComponent {
 	public String getPrimaryParent(NodeRef nodeRef) {
 		Path primaryPath = getNodeService().getPath(nodeRef);
 		Path.Element element = primaryPath.last();
-		NodeRef parentRef = ((Path.ChildAssocElement) element).getRef()
-				.getParentRef();
+		NodeRef parentRef = ((Path.ChildAssocElement) element).getRef().getParentRef();
 		return parentRef.toString();
 	}
 
@@ -184,31 +183,36 @@ public class TopXSearchComponent {
 	 * @return a list of Nodes which can be transformed to json.
 	 * @throws IOException
 	 */
-	public List<Node> submitSearch(final String queryType,
-			final String maxItems, final String parentId) throws IOException {
+	public List<Node> submitSearch(final String queryType, final String maxItems, final String parentId)
+			throws IOException {
 
 		Preconditions.checkNotNull(queryType);
 		Preconditions.checkNotNull(maxItems);
 
 		RetryingTransactionCallback<List<Node>> searchCallback = new RetryingTransactionCallback<List<Node>>() {
 			public List<Node> execute() throws Throwable {
-				SearchParameters searchParameters = createSearchParameters(
-						queryType, maxItems, parentId);
-				LOG.info("Searching with following parameters:"
-						+ searchParameters);
-				List<NodeRef> nodeRefs = getSearchService().query(
-						searchParameters).getNodeRefs();
-				LOG.info("Search has found " + nodeRefs.size() + " nodes...");
-				List<Node> searchResults = new ArrayList<Node>(nodeRefs.size());
-				for (NodeRef nodeRef : nodeRefs) {
-					searchResults.add(createNode(nodeRef));
+				SearchParameters searchParameters = createSearchParameters(queryType, maxItems, parentId);
+				LOG.info("Searching with following parameters:" + searchParameters);
+				ResultSet resultSet = null;
+				List<Node> searchResults;
+				try {
+
+					resultSet = getSearchService().query(searchParameters);
+					List<NodeRef> nodeRefs = resultSet.getNodeRefs();
+					LOG.info("Search has found " + nodeRefs.size() + " nodes...");
+					searchResults = new ArrayList<Node>(nodeRefs.size());
+					for (NodeRef nodeRef : nodeRefs) {
+						searchResults.add(createNode(nodeRef));
+					}
+				} finally {
+					if (resultSet != null) {
+						resultSet.close();
+					}
 				}
 				LOG.info("Generated the node infos needed for the dashlet...");
 				if (LOG.isDebugEnabled()) {
-					LOG.debug(searchResults);
+					LOG.debug("Search results:\n"+searchResults);
 				}
-				Collections.sort(searchResults);
-				LOG.info("Sorted the nodes by hitcounter...");
 				return searchResults;
 			}
 
@@ -223,19 +227,16 @@ public class TopXSearchComponent {
 			 *            unused at the moment- extension for the future
 			 * @return a search config object
 			 */
-			private SearchParameters createSearchParameters(
-					final String queryType, final String maxItems,
+			private SearchParameters createSearchParameters(final String queryType, final String maxItems,
 					final String parentId) {
 				SearchParameters searchParameters = new SearchParameters();
 
-				searchParameters
-						.addStore(StoreRef.STORE_REF_WORKSPACE_SPACESSTORE);
+				searchParameters.addStore(StoreRef.STORE_REF_WORKSPACE_SPACESSTORE);
 				searchParameters.setLanguage(SearchService.LANGUAGE_LUCENE);
 				searchParameters.setQuery(getQuery(queryType, parentId));
-				searchParameters.setMaxItems(Integer.valueOf(maxItems));
-				// does not work at the moment-> manuelly sort on Node-Object
-				// level.
-				searchParameters.addSort("@topx\\:hitcount", false);
+				searchParameters.setLimitBy(LimitBy.FINAL_SIZE);
+				searchParameters.setLimit(Integer.valueOf(maxItems));
+				searchParameters.addSort("@topx:hitcount", false);
 				return searchParameters;
 			}
 
@@ -250,8 +251,7 @@ public class TopXSearchComponent {
 			private String getQuery(String queryType, String parentId) {
 				StringBuilder query = new StringBuilder();
 				if (StringUtils.isNotBlank(parentId)) {
-					String parentPath = getNodeService().getPath(
-							new NodeRef(parentId)).toPrefixString(
+					String parentPath = getNodeService().getPath(new NodeRef(parentId)).toPrefixString(
 							getNamespaceService());
 					// parentPath = ISO9075.encode(parentPath);
 					query.append("PATH:\"" + parentPath + "//*\" AND ");
@@ -263,8 +263,7 @@ public class TopXSearchComponent {
 		};
 
 		try {
-			return getTransactionService().getRetryingTransactionHelper()
-					.doInTransaction(searchCallback, true);
+			return getTransactionService().getRetryingTransactionHelper().doInTransaction(searchCallback, true);
 		} catch (Throwable e) {
 			throw new IOException("Search failed", e);
 		}
@@ -299,11 +298,9 @@ public class TopXSearchComponent {
 		// avoid triggering counting
 		behaviourFilter.disableBehaviour(DataModel.TOPX_ASPECTNAME);
 
-		ContentReader reader = contentService.getReader(nodeRef,
-				ContentModel.PROP_CONTENT);
+		ContentReader reader = contentService.getReader(nodeRef, ContentModel.PROP_CONTENT);
 
-		newNode.setContentSizeFormatted(FileUtils.byteCountToDisplaySize(reader
-				.getSize()));
+		newNode.setContentSizeFormatted(FileUtils.byteCountToDisplaySize(reader.getSize()));
 		String contentMimetype = reader.getMimetype();
 		String displayMimetype = displayNamesByMimetype.get(contentMimetype);
 		if (StringUtils.isNotBlank(displayMimetype)) {
@@ -326,16 +323,12 @@ public class TopXSearchComponent {
 		Path path = getNodeService().getPath(nodeRef);
 		String displayPath = path.toDisplayPath(nodeService, permissionService);
 		newNode.setDisplayPath(displayPath);
-		String pathCutted = StringUtils.substringAfter(
-				StringUtils.substringAfter(displayPath, "/"), "/");
+		String pathCutted = StringUtils.substringAfter(StringUtils.substringAfter(displayPath, "/"), "/");
 		if (pathCutted.startsWith("Sites/")) {
-			String siteName = StringUtils.substringBetween(displayPath,
-					"Sites/", "/");
+			String siteName = StringUtils.substringBetween(displayPath, "Sites/", "/");
 			newNode.setSiteName(siteName);
-			String documentPath = StringUtils.substringAfter(displayPath,
-					"Sites/" + siteName + "/documentLibrary/");
-			String sitePath = StringUtils
-					.substringBeforeLast(documentPath, "/");
+			String documentPath = StringUtils.substringAfter(displayPath, "Sites/" + siteName + "/documentLibrary/");
+			String sitePath = StringUtils.substringBeforeLast(documentPath, "/");
 			newNode.setSitePath(sitePath);
 		}
 
@@ -362,14 +355,12 @@ public class TopXSearchComponent {
 	 * @param newNode
 	 */
 	private void setCreator(NodeRef nodeRef, Node newNode) {
-		String creator = (String) getNodeService().getProperty(nodeRef,
-				ContentModel.PROP_CREATOR);
+		String creator = (String) getNodeService().getProperty(nodeRef, ContentModel.PROP_CREATOR);
 		newNode.setCreator(creator);
 
 		NodeRef person = personService.getPerson(creator, false);
 		Map<QName, Serializable> properties = nodeService.getProperties(person);
-		newNode.setCreatorFormatted((String) properties
-				.get(ContentModel.PROP_FIRSTNAME)
+		newNode.setCreatorFormatted((String) properties.get(ContentModel.PROP_FIRSTNAME)
 				+ (String) properties.get(ContentModel.PROP_LASTNAME));
 	}
 
@@ -380,8 +371,8 @@ public class TopXSearchComponent {
 	 * @param newNode
 	 */
 	private void setAuditDates(NodeRef nodeRef, Node newNode) {
-		newNode.setModifyDate(formatter.format((Date) getNodeService()
-				.getProperty(nodeRef, ContentModel.PROP_MODIFIED)));
+		newNode.setModifyDate(formatter
+				.format((Date) getNodeService().getProperty(nodeRef, ContentModel.PROP_MODIFIED)));
 		newNode.setCreationDate(formatter.format((Date) getNodeService()
 				.getProperty(nodeRef, ContentModel.PROP_CREATED)));
 	}
@@ -394,18 +385,14 @@ public class TopXSearchComponent {
 	 * @param newNode
 	 */
 	private void setNameAndTitle(NodeRef nodeRef, Node newNode) {
-		newNode.setName((String) getNodeService().getProperty(nodeRef,
-				ContentModel.PROP_NAME));
+		newNode.setName((String) getNodeService().getProperty(nodeRef, ContentModel.PROP_NAME));
 		newNode.setAbbreviatedName(StringUtils.abbreviate(
-				(String) getNodeService().getProperty(nodeRef,
-						ContentModel.PROP_NAME), 28));
+				(String) getNodeService().getProperty(nodeRef, ContentModel.PROP_NAME), 28));
 
-		newNode.setTitle((String) getNodeService().getProperty(nodeRef,
-				ContentModel.PROP_TITLE));
+		newNode.setTitle((String) getNodeService().getProperty(nodeRef, ContentModel.PROP_TITLE));
 
 		newNode.setAbbreviatedTitle(StringUtils.abbreviate(
-				(String) getNodeService().getProperty(nodeRef,
-						ContentModel.PROP_TITLE), 28));
+				(String) getNodeService().getProperty(nodeRef, ContentModel.PROP_TITLE), 28));
 	}
 
 	/**
@@ -416,14 +403,12 @@ public class TopXSearchComponent {
 	 * @param newNode
 	 */
 	private void setModifier(NodeRef nodeRef, Node newNode) {
-		String modifier = (String) getNodeService().getProperty(nodeRef,
-				ContentModel.PROP_MODIFIER);
+		String modifier = (String) getNodeService().getProperty(nodeRef, ContentModel.PROP_MODIFIER);
 		newNode.setModifier(modifier);
 
 		NodeRef person = personService.getPerson(modifier, false);
 		Map<QName, Serializable> properties = nodeService.getProperties(person);
-		newNode.setModifierFormatted((String) properties
-				.get(ContentModel.PROP_FIRSTNAME)
+		newNode.setModifierFormatted((String) properties.get(ContentModel.PROP_FIRSTNAME)
 				+ (String) properties.get(ContentModel.PROP_LASTNAME));
 	}
 }

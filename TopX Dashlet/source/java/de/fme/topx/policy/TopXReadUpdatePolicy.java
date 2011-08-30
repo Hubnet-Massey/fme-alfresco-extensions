@@ -1,9 +1,9 @@
-
 package de.fme.topx.policy;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sf.acegisecurity.AuthenticationCredentialsNotFoundException;
 import net.sf.acegisecurity.providers.ProviderNotFoundException;
 
 import org.alfresco.error.AlfrescoRuntimeException;
@@ -24,7 +24,6 @@ import org.apache.commons.logging.LogFactory;
 import de.fme.topx.component.TopXUpdateComponent;
 import de.fme.topx.constants.DataModel;
 
-
 /**
  * This class contains the behaviour behind the 'topx:countable' aspect.
  * <p>
@@ -37,7 +36,7 @@ import de.fme.topx.constants.DataModel;
  *         template was the ContentHitsAspect from Roy Wetherall and Derek
  *         Hulley
  */
-public class TopXReadUpdatePolicy implements ContentServicePolicies.OnContentReadPolicy{
+public class TopXReadUpdatePolicy implements ContentServicePolicies.OnContentReadPolicy {
 
 	/** A key that keeps track of nodes that need read count increments */
 	private static final String KEY_CONTENT_HITS_READS = TopXReadUpdatePolicy.class.getName() + ".reads";
@@ -95,6 +94,8 @@ public class TopXReadUpdatePolicy implements ContentServicePolicies.OnContentRea
 		try {
 			isSystemUser = authenticationService.isCurrentUserTheSystemUser();
 		} catch (ProviderNotFoundException e) {
+			LOG.warn("internal code calls the policy " + "without any provider config", e);
+		} catch (AuthenticationCredentialsNotFoundException e) {
 			LOG.warn("internal code calls the policy " + "without any provider config", e);
 		}
 
