@@ -1,0 +1,6 @@
+<config>
+	<tag>faq</tag>
+	<title>FAQ</title>
+	<alwaysDisplayPaginator>false</alwaysDisplayPaginator>
+	<rowsPerPage>10</rowsPerPage>
+</config>	
