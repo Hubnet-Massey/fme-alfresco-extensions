@@ -1,76 +1,14 @@
 <alfresco-config>
 
-	<config replace="true">
-		<flags>
-			<client-debug>true</client-debug>
-			<client-debug-autologging>false</client-debug-autologging>
-		</flags>
-	</config>
-
 	<config evaluator="string-compare" condition="DocumentLibrary">
 		<aspects>
 
 			<!-- Aspects that a user can see in UI. Used by Rules, aspects are the 
 				listed aspects for rule's "has-aspect" action condition. -->
 			<visible>
-				<aspect name="cm:generalclassifiable" />
-				<aspect name="cm:complianceable" />
-				<aspect name="cm:dublincore" />
-				<aspect name="cm:effectivity" />
-				<aspect name="cm:summarizable" />
-				<aspect name="cm:versionable" />
-				<aspect name="cm:templatable" />
-				<aspect name="cm:emailed" />
-				<aspect name="emailserver:aliasable" />
-				<aspect name="cm:taggable" />
-				<aspect name="app:inlineeditable" />
-				<aspect name="gd:googleEditable" />
-				<aspect name="cm:geographic" />
-				<aspect name="exif:exif" />
 				<aspect name="topx:countable" />
 			</visible>
-
-			<!-- Aspects that a user can add in UI. Used by Rules, aspects are the 
-				listed aspects for rule's "add-features" action. Same as "visible" if left 
-				empty. -->
-			<addable>
-				<aspect name="cm:generalclassifiable" />
-				<aspect name="cm:complianceable" />
-				<aspect name="cm:dublincore" />
-				<aspect name="cm:effectivity" />
-				<aspect name="cm:summarizable" />
-				<aspect name="cm:versionable" />
-				<aspect name="cm:templatable" />
-				<aspect name="cm:emailed" />
-				<aspect name="emailserver:aliasable" />
-				<aspect name="cm:taggable" />
-				<aspect name="app:inlineeditable" />
-				<aspect name="gd:googleEditable" />
-				<aspect name="cm:geographic" />
-				<aspect name="exif:exif" />
-				<aspect name="topx:countable" />
-			</addable>
-
-			<!-- Aspects that a user can remove in UI. Used by Rules, aspects are 
-				the listed aspects for rule's "remove-features" action. Same as "visible" 
-				if left empty -->
-			<removeable>
-				<aspect name="cm:generalclassifiable" />
-				<aspect name="cm:complianceable" />
-				<aspect name="cm:dublincore" />
-				<aspect name="cm:effectivity" />
-				<aspect name="cm:summarizable" />
-				<aspect name="cm:versionable" />
-				<aspect name="cm:templatable" />
-				<aspect name="cm:emailed" />
-				<aspect name="emailserver:aliasable" />
-				<aspect name="cm:taggable" />
-				<aspect name="app:inlineeditable" />
-				<aspect name="gd:googleEditable" />
-				<aspect name="cm:geographic" />
-				<aspect name="exif:exif" />
-				<aspect name="topx:countable" />
-			</removeable>
+			
 		</aspects>
 	</config>
 </alfresco-config>
