@@ -12,6 +12,15 @@
 			</list>
 		</property>
 	</bean>
+	
+	<!-- Registration of model Ressource Bundle -->
+	<bean id="topx.resourceBundle" class="org.alfresco.i18n.ResourceBundleBootstrapComponent">
+		<property name="resourceBundles">
+			<list>
+				<value>alfresco.extension.topx-model</value>
+			</list>
+		</property>
+	</bean>
 
 	<!-- top x search web script -->
 	<bean id="webscript.de.fme.topx.search.get" parent="webscript"
