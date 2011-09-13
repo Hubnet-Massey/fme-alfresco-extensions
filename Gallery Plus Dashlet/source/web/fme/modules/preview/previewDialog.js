@@ -380,34 +380,43 @@ FME.module = FME.module || {};
 		 * Posts the comment entered by the user to the repository.
 		 */
 		postComment : function FMPD_postComment() {
-			this.widgets.textarea.disabled = true;
 			var content = this.widgets.textarea.value;
+			content = content.replace (/^\s+/, '').replace (/\s+$/, '');
 
-			var nodeRefUrl = this.currentItem.nodeRef.replace("://", "/");
-			var url = Alfresco.constants.PROXY_URI + "api/node/" + nodeRefUrl + "/comments";
-
-			Alfresco.util.Ajax.jsonRequest({
-				method : "POST",
-				url : url,
-				dataObj : {
-					content : content
-				},
-				successCallback : {
-					fn : function(response) {
-						this.loadComments(this.currentItem.nodeRef);
-						this.widgets.textarea.value = "";
-						this.widgets.textarea.disabled = false;
+			if (content) {
+				this.widgets.textarea.disabled = true;
+				var nodeRefUrl = this.currentItem.nodeRef.replace("://", "/");
+				var url = Alfresco.constants.PROXY_URI + "api/node/" + nodeRefUrl + "/comments";
+	
+				Alfresco.util.Ajax.jsonRequest({
+					method : "POST",
+					url : url,
+					dataObj : {
+						content : content
 					},
-					scope : this
-				},
-				failureCallback : {
-					fn : function(response) {
-						this.widgets.textarea.disabled = false;
+					successCallback : {
+						fn : function(response) {
+							this.loadComments(this.currentItem.nodeRef);
+							this.widgets.textarea.value = "";
+							this.widgets.textarea.disabled = false;
+						},
+						scope : this
 					},
-					scope : this
-				}
-
-			});
+					failureCallback : {
+						fn : function(response) {
+							this.widgets.textarea.disabled = false;
+						},
+						scope : this
+					}
+				});
+			}
+			else {
+	            this.widgets.textarea.value=""; // reset possible linefeeds				
+				Alfresco.util.PopupManager.displayMessage(
+	            {
+	               text: this.msg("preview-dialog.empty.comment.submitted")
+	            });
+			}
 		},
 		
 		/**
