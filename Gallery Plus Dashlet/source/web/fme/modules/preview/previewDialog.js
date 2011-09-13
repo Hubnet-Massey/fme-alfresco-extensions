@@ -198,7 +198,7 @@ FME.module = FME.module || {};
 			Dom.get(this.id + "-imageTitle").innerHTML = item.title;
 			Dom.get(this.id + "-imageDescription").innerHTML = item.description;
 			Dom.get(this.id + "-detailsAction").href = this.options.detailsUrl + selectedNodeRef;
-			Dom.get(this.id + "-downloadAction").href = Alfresco.constants.PROXY_URI + "api/node/" + nodeRefUrl + "/content?a=true";
+			Dom.get(this.id + "-downloadAction").href = Alfresco.constants.PROXY_URI + "api/node/content/" + nodeRefUrl + "/"+item.name+"?a=true";
 
 			this.loadComments(item.nodeRef);
 
