@@ -37,7 +37,7 @@
 								<bean
 									class="org.alfresco.repo.content.transform.magick.ImageResizeOptions">
 									<property name="height" value="120" />
-									<property name="width" value="2000" />
+									<property name="width" value="4000" />
 									<property name="maintainAspectRatio" value="true" />
 									<property name="resizeToThumbnail" value="true" />
 								</bean>
@@ -67,7 +67,7 @@
 								<bean
 									class="org.alfresco.repo.content.transform.magick.ImageResizeOptions">
 									<property name="height" value="200" />
-									<property name="width" value="2000" />
+									<property name="width" value="4000" />
 									<property name="maintainAspectRatio" value="true" />
 									<property name="resizeToThumbnail" value="true" />
 								</bean>
