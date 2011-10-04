@@ -38,8 +38,7 @@
 }
 
 .yui-panel.darkpanel .imagearea .detailsAction {
-	background-image:
-		url(../../../components/documentlibrary/images/folder-metadata-16.png);
+	background-image: url(document-edit-metadata-16.png);
 	background-repeat: no-repeat;
 	padding-left: 20px;
 	color: #ccc;
@@ -47,8 +46,7 @@
 }
 
 .yui-panel.darkpanel .imagearea .downloadAction {
-	background-image:
-		url(../../../components/documentlibrary/images/download-16.png);
+	background-image: url(document-download-16.png);
 	background-repeat: no-repeat;
 	padding-left: 20px;
 	color: #ccc;
