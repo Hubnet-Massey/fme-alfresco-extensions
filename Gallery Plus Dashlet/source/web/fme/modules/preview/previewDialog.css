@@ -21,7 +21,6 @@
 	border-right: 1px solid #444;
 	padding: 1em;
 	color: #ccc;
-
 }
 
 .yui-panel.darkpanel .ft {
@@ -50,6 +49,20 @@
 	background-repeat: no-repeat;
 	padding-left: 20px;
 	color: #ccc;
+}
+
+.yui-panel.darkpanel .imagearea .likeAction {
+	display:inline-block;
+	margin-right: 0.5em;	
+}
+
+.yui-panel.darkpanel .imagearea .likeAction span.likes-count {
+	background-color:#666;
+	color:white;
+}
+
+.yui-panel.darkpanel .imagearea .likeAction a.like-action {
+	color:#CCC;
 }
 
 .yui-panel.darkpanel .commentarea {

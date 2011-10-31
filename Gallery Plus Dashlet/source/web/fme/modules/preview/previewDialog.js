@@ -141,7 +141,7 @@ FME.module = FME.module || {};
 			this.widgets.image = Dom.get(this.id + "-image");
 			this.widgets.commentArea = Dom.get(this.id + "-comments");
 			this.widgets.commentButton = Alfresco.util.createYUIButton(this, "newcomment-button", this.postComment);
-
+			
 			YAHOO.util.Event.addListener(Dom.get(this.id + "-right"), "click", function(e, dialog) {
 				dialog.showImage(dialog.options.index + 1);
 			}, this);
@@ -200,6 +200,11 @@ FME.module = FME.module || {};
 			Dom.get(this.id + "-detailsAction").href = this.options.detailsUrl + selectedNodeRef;
 			Dom.get(this.id + "-downloadAction").href = Alfresco.constants.PROXY_URI + "api/node/content/" + nodeRefUrl + "/"+item.name+"?a=true";
 
+            new Alfresco.Like(this.id + '-like').setOptions({
+            	nodeRef: item.nodeRef,
+                displayName: item.name
+            }).display(item.likes.isLiked, item.likes.totalLikes);
+			
 			this.loadComments(item.nodeRef);
 
 		},
@@ -371,7 +376,7 @@ FME.module = FME.module || {};
 		onOutsideDialogClick : function FMPD_onOutsideDialogClick(e) {
 			var el = Event.getTarget(e);
 			var dialogEl = this.dialog.element;
-			if(el != dialogEl && !Dom.isAncestor(dialogEl, el)) {
+			if(el != dialogEl && !Dom.hasClass(el, "like-action") && !Dom.isAncestor(dialogEl, el)) {
 				this.dialog.hide();
 			}
 		},

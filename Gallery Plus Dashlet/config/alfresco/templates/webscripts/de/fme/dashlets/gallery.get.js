@@ -1,3 +1,4 @@
+<import resource="classpath:/alfresco/templates/webscripts/org/alfresco/slingshot/documentlibrary-v2/parse-args.lib.js">
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -133,8 +134,9 @@
 				"twidth" : nz(thumb.properties["exif:pixelXDimension"],120),
 				"theight" : nz(thumb.properties["exif:pixelYDimension"], 120),
 				"thumbUrl" : "api/node/"+nodeRefUrl+"/content/thumbnails/"+thumbName,
-				"comments" : getCommentCount(n)
-			});
+				"comments" : getCommentCount(n),
+				"likes" : Common.getLikes(n)
+ 			});
 		}
 		else {
 		  logger.warn("Thumbnail generation failed for node: " + n.nodeRef);

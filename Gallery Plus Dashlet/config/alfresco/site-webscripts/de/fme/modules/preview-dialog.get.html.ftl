@@ -30,6 +30,7 @@
 		</div>
 		<div class="imagefooter">
 			<div class="actions">
+				<div id="${el}-like" class="likeAction"></div>
 			    <a id="${el}-detailsAction" href="#" class="detailsAction">${msg("label.action.details")}</a>
 			    <a id="${el}-downloadAction" href="#" target="_new" class="downloadAction">${msg("label.action.download")}</a>
 		    </div>
