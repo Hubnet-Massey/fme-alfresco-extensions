@@ -1,7 +1,7 @@
 Tag Query dashlet for Alfresco Share
 ===============================================
 
-Author: Jan Pfitzner (jan@alfrescian.com) supported by fme.de
+Author: Jan Pfitzner (jan@alfrescian.com) supported by www.fme.de
 
 This project defines a custom site-dashlet that displays a document list using a tag query
 Installation
