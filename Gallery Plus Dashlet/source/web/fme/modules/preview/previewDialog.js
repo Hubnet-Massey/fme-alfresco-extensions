@@ -77,7 +77,8 @@ FME.module = FME.module || {};
 			items : [],
 			index : 0,
 			thumbName : "galpThumb120",
-			detailsUrl : ""
+			detailsUrl : "",
+			siteId : ""
 		},
 
 		/**
@@ -202,7 +203,8 @@ FME.module = FME.module || {};
 
             new Alfresco.Like(this.id + '-like').setOptions({
             	nodeRef: item.nodeRef,
-                displayName: item.name
+                displayName: item.name,
+                siteId : this.options.siteId
             }).display(item.likes.isLiked, item.likes.totalLikes);
 			
 			this.loadComments(item.nodeRef);

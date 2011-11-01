@@ -99,7 +99,8 @@ FME.util = {
 			maxImages : 50,
 			componentId : "",
 			detailsUrl : "",
-			background : "white"
+			background : "white",
+			siteId : ""
 		},
 
 		widgets : {},
@@ -343,7 +344,8 @@ FME.util = {
 				templateUrl : Alfresco.constants.URL_SERVICECONTEXT + "fme/modules/preview-dialog",
 				items : this.currentThumbnails,
 				index : parseInt(index),
-				detailsUrl : this.options.detailsUrl
+				detailsUrl : this.options.detailsUrl,
+				siteId : this.options.siteId
 			}).show();
 
 			YAHOO.util.Event.stopEvent(e);
@@ -469,14 +471,6 @@ FME.util = {
 					}
 				}
 			});
-
-			// Add click handler to config dashlet link that will be visible if
-			// user is site manager.
-			var configLink = Dom.get(this.id + "-config-link");
-			if(configLink) {
-				Event.addListener(configLink, "click", this.onConfigDashletClick, this, true);
-			}
-
 
 			this.widgets.backToAlbumsLink = Dom.get(this.id + "-back-to-albums");
 			Event.addListener(this.widgets.backToAlbumsLink, "click", function(e) {

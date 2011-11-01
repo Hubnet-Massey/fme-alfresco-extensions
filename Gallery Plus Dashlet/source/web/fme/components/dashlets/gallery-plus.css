@@ -54,12 +54,15 @@
 }
 
 .fme-gallery-dashlet .dashlet-padding {
-	padding-left: 4px !important; /* diable padding */
+	padding-top: 4px !important; /* disable default dashlet padding */
+	padding-bottom: 4px !important; 	
+	padding-left: 4px !important; 
 	padding-right: 0px !important;
 }
 
 .fme-gallery-dashlet .title-toolbar {
 	float:right;
+	margin-right: 46px;	
 }
 
 
