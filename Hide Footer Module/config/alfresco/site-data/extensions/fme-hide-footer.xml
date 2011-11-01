@@ -1,0 +1,20 @@
+<extension>
+	<modules>
+		<module>
+			<id>Hide Footer Module</id>
+			<components>
+				<component>
+					<scope>global</scope>
+					<region-id>footer</region-id>
+					<source-id>global</source-id>
+					<sub-components>
+						<sub-component id="default">
+							<url>/fme/components/hide-footer</url>
+						</sub-component>
+					</sub-components>
+				</component>
+			</components>
+		</module>
+	</modules>
+</extension>
+
