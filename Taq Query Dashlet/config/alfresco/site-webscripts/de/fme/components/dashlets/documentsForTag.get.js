@@ -1,3 +1,4 @@
+<import resource="classpath:/alfresco/templates/org/alfresco/import/alfresco-util.js">
 function main() {
 	var conf = new XML(config.script);
 	args.feedurl
@@ -52,6 +53,8 @@ function main() {
 		}
 	}
 	model.userIsSiteManager = userIsSiteManager;
+	
+	model.preferences = AlfrescoUtil.getPreferences("org.alfresco.share.documentsForTag.dashlet");
 }
 
 main();
