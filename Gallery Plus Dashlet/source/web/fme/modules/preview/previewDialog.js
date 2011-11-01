@@ -399,7 +399,11 @@ FME.module = FME.module || {};
 					method : "POST",
 					url : url,
 					dataObj : {
-						content : content
+						content : content,
+						site : this.options.siteId,
+						itemTitle : this.currentItem.name,
+						page : "document-details",
+						pageParams : "{\"nodeRef\":\"" + this.currentItem.nodeRef + "\"}"
 					},
 					successCallback : {
 						fn : function(response) {
