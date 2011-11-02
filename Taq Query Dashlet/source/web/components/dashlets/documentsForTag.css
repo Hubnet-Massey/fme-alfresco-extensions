@@ -15,7 +15,8 @@
 }
 
 .documents-for-tag .yui-pg-container {
-    display: inline;
+    float: left;
+    margin: 0;
 }
 
 .documents-for-tag .simple-detailed .simple-view span.first-child
