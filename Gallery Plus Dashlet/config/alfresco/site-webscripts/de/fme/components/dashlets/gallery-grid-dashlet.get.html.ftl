@@ -28,17 +28,27 @@
    var editDashletEvent = new YAHOO.util.CustomEvent("onDashletConfigure");
    editDashletEvent.subscribe(galleryPlus.onConfigDashletClick, galleryPlus, true);
 
-   new Alfresco.widget.DashletTitleBarActions("${idJS}").setOptions(
+   var showFullscreenPageEvent = new YAHOO.util.CustomEvent("onShowFullscreenPage");
+   showFullscreenPageEvent.subscribe(galleryPlus.showFullscreenPage, galleryPlus, true);
+
+   new Alfresco.widget.DashletTitleBarActions11339("${idJS}").setOptions(
    {
       actions:
       [
 <#if userIsSiteManager>
          {
+            id: "edit-dashlet-action",
             cssClass: "edit",
             eventOnClick: editDashletEvent,
             tooltip: "${msg("dashlet.edit.tooltip")?js_string}"
          },
 </#if>
+         {
+         	id: "fullscreen-action",
+            cssClass: "fullscreen",
+            eventOnClick: showFullscreenPageEvent,
+            tooltip: "${msg("dashlet.fullscreen.tooltip")?js_string}"
+         },
          {
             cssClass: "help",
             bubbleOnClick:
