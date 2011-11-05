@@ -278,7 +278,7 @@ FME.module = FME.module || {};
 
 			var authorLink = document.createElement("a");
 			authorLink.href = Alfresco.constants.URL_CONTEXT + "page/user/" + comment.author.username + "/profile";
-			authorLink.innerHTML = comment.author.firstName + " " + comment.author.lastName + ":";
+			authorLink.innerHTML = comment.author.firstName + " " + comment.author.lastName + ": ";
 
 			var contentElement = document.createElement("div");
 			Dom.addClass(contentElement, "content");
@@ -286,7 +286,7 @@ FME.module = FME.module || {};
 
 			var dateElement = document.createElement("div");
 			Dom.addClass(dateElement, "date");
-			dateElement.innerHTML = this.formatCommentDate(comment.createdOn);
+			dateElement.innerHTML = Alfresco.util.relativeTime(comment.createdOnISO);
 
 			authorElement.appendChild(authorLink);
 			commentText.appendChild(authorElement);
@@ -298,20 +298,6 @@ FME.module = FME.module || {};
 			commentElement.appendChild(commentText);
 
 			this.widgets.commentArea.appendChild(commentElement);
-		},
-		
-		/**
-		 * Formats the comment date returned by the repository. Displays a relative date if it
-		 * can be parsed and an absolute date otherwise.  
-		 */
-		formatCommentDate : function FMPD_formatCommentDate(createdOn) {
-			var formattedDate = Alfresco.util.formatDate(createdOn);
-			var parsedDate = Date.parse(formattedDate);
-			if(parsedDate) {
-				return Alfresco.util.relativeTime(parsedDate);
-			} else {
-				return formattedDate;
-			}
 		},
 		
 		/**

@@ -462,11 +462,16 @@ FME.util = {
 			});
 
 			// load additional images then the dashlet contents are scrolled
-			var scrollArea = this.widgets.scrollArea;
-			YAHOO.util.Event.addListener(scrollArea, 'scroll', function(ev) {
+			var scrollPositionSource = this.widgets.scrollArea;
+			var scrollEventSource = this.widgets.scrollArea;
+			if (!scrollEventSource) {
+				scrollEventSource = window;
+				scrollPositionSource = window.document.body;
+			}
+			YAHOO.util.Event.addListener(scrollEventSource, 'scroll', function(ev) {
 				if(me.currentViewmode == me.constants.VIEWMODE_IMAGES) {
-					var bottomPosition = scrollArea.clientHeight + scrollArea.scrollTop;
-					if(bottomPosition + me.constants.SCROLL_LOAD_TRIGGER > scrollArea.scrollHeight) {
+					var bottomPosition = scrollPositionSource.clientHeight + scrollPositionSource.scrollTop;
+					if(bottomPosition + me.constants.SCROLL_LOAD_TRIGGER > scrollPositionSource.scrollHeight) {
 						me.loadImages(true);
 					}
 				}
@@ -481,7 +486,9 @@ FME.util = {
 
 			Dom.setStyle(this.widgets.backToAlbumsLink, "display", "none");
 
-			Dom.setStyle(scrollArea, "background-color", this.options.background);
+			if (this.widgets.scrollArea) {
+				Dom.setStyle(this.widgets.scrollArea, "background-color", this.options.background);
+			}
 
 			this.updateTitle();
 			this.updateView();
@@ -497,7 +504,10 @@ FME.util = {
 				title += " - " + albumTitle;
 			}
 			
-			Dom.get(this.id + "-title-text").innerHTML = title;
+			var titleNode = Dom.get(this.id + "-title-text");
+			if (titleNode) {
+				titleNode.innerHTML = title;
+			}
 		},
 		
 		/**
@@ -643,7 +653,9 @@ FME.util = {
 								this.options = YAHOO.lang.merge(this.options, obj);
 							}
 							this.updateTitle();
-							Dom.setStyle(this.widgets.scrollArea, "background-color", this.options.background);
+							if (this.widgets.scrollArea) {
+								Dom.setStyle(this.widgets.scrollArea, "background-color", this.options.background);
+							}
 							this.currentViewmode = this.options.viewmode;
 							this.updateView();
 						},

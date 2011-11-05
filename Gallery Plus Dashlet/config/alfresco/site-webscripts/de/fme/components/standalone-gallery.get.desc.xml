@@ -1,0 +1,5 @@
+<webscript>
+   <shortname>Gallery Plus</shortname>
+   <description>Component Webscript that returns the thumbnail grid for the standalone gallery</description>
+   <url>/fme/components/standalone-gallery</url>
+</webscript>

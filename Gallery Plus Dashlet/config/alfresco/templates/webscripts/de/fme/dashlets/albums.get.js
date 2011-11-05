@@ -49,12 +49,12 @@
 	 * Builds a query definition for querying for preview thumbnail images
 	 * for an album.
 	 * 
-	 * Notes:
+	 * Notes (with 3.4):
 	 *  - using lucene query to query preview images for each album.
 	 *  - album.children to query images is slower for large albums
 	 *    If the album would store the approx number of images
 	 *    the query could be optimized album.children when <100 pics, lucene when > 100 pics
-	 *  - search seems to faster with sorting by cm:modified, than without
+	 *  - search seems to be faster with sorting by cm:modified, than without
 	 */
 	var getChildrenQuery = function(albumNodeRef){
 		return {
