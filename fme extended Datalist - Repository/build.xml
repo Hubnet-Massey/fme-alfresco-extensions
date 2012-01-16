@@ -4,19 +4,8 @@
                                Share Extensions build script  
                             ***********************************
     
-    Author: Will Abson
+    Author: Will Abson, Jan Pfitzner (slight modifications)
     
-    Provides a set of targets for building extensions to Alfresco Share in ZIP, ACP and JAR archive 
-    formats. Since Alfresco 3.3, JAR is the recommended package structure for all simple extensions.
-    For more complex extensions that add additional Java libraries or Spring configuration, ACP
-    should be used.
-    
-    The following file structure is required in your project directory
-    
-        /build.xml - This file
-        /config - All web-tier configuration files, e.g. web scripts and Surf configuration
-        /source/web - All static resource files, e.g. CSS, JS
-        
     For building AMP files, the files module.proerties and file-mapping.properties are also required
     in the project root directory.
     
