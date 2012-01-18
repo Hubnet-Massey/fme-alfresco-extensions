@@ -246,8 +246,11 @@ public abstract class DeclarativeSpreadsheetWebScript extends DeclarativeWebScri
             // Add our header row
             Sheet sheet = wb.createSheet("Export");
             Row hr = sheet.createRow(0);
-            sheet.createFreezePane(0, 1);
-            
+            try{
+            	sheet.createFreezePane(0, 1);
+            }catch(IndexOutOfBoundsException e){
+            	//https://issues.apache.org/bugzilla/show_bug.cgi?id=51431 & http://stackoverflow.com/questions/6469693/apache-poi-clearing-freeze-split-panes
+            }
             Font fb = wb.createFont();
             fb.setBoldweight(Font.BOLDWEIGHT_BOLD);
             Font fi = wb.createFont();

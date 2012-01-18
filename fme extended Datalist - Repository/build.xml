@@ -137,10 +137,8 @@
 	</target>
 	
 	 <target name="hotcopy-tomcat-jar" depends="dist-jar" description="Hot copy JAR file into a local Tomcat instance">
-        <copy todir="${tomcat.home}/webapps/alfresco/WEB-INF/lib">
-            <fileset file="${dist.dir}" >
-            	<include name="*.jar" />
-        	</fileset>
+        <copy todir="${tomcat.home}/webapps/alfresco/WEB-INF/lib" includeEmptyDirs="false" verbose="true">
+            <fileset dir="${dist.dir}" includes="*.jar"/>
         </copy>
     </target>
 
