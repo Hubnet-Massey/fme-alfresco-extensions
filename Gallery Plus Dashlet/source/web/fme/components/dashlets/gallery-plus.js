@@ -760,7 +760,7 @@ FME.util = {
 			}
 
 			// Make sure correct path is expanded
-			var pathNodeRef = this.widgets.filterPathField.value;
+			var pathNodeRef = this.widgets.filterPathField.value.split("|")[0];
 			this.widgets.filterPathDialog.setOptions({
 				pathNodeRef : pathNodeRef ? new Alfresco.util.NodeRef(pathNodeRef) : null
 			});
