@@ -339,7 +339,8 @@ if (typeof(FME.dashlet) == "undefined") FME.dashlet={};
        */
       getWebscriptUrl: function DocumentsForTag_getWebscriptUrl()
       {
-         return Alfresco.constants.PROXY_URI +"slingshot/doclib/doclist/documents/site/"+Alfresco.constants.SITE+"/documentLibrary?filter=tag";
+         //return Alfresco.constants.PROXY_URI +"slingshot/doclib/doclist/documents/site/"+Alfresco.constants.SITE+"/documentLibrary?filter=tag";
+    	 return Alfresco.constants.URL_SERVICECONTEXT + "components/documentlibrary/data/doclist/all/site/"+Alfresco.constants.SITE+"/documentLibrary?filter=tag&sortAsc=true&sortField=cm%3Aname&view=browse";
       },
 
       /**
@@ -371,6 +372,72 @@ if (typeof(FME.dashlet) == "undefined") FME.dashlet={};
 
          this.reloadDataTable();
       },
+      
+      /**
+       * Thumbnail custom datacell formatter
+       *
+       * @method renderCellThumbnail
+       * @param elCell {object}
+       * @param oRecord {object}
+       * @param oColumn {object}
+       * @param oData {object|string}
+       */
+      renderCellThumbnail: function SimpleDocList_renderCellThumbnail(elCell, oRecord, oColumn, oData)
+      {
+         var columnWidth = 40,
+            record = oRecord.getData(),
+            desc = "";
+
+         if (record.isInfo)
+         {
+            columnWidth = 52;
+            desc = '<img src="' + Alfresco.constants.URL_RESCONTEXT + 'components/images/help-docs-bw-32.png" />';
+         }
+         else
+         {
+            var name = record.fileName,
+               extn = name.substring(name.lastIndexOf(".")),
+               locn = record.location,
+               nodeRef = new Alfresco.util.NodeRef(record.nodeRef),
+               docDetailsUrl = Alfresco.constants.URL_PAGECONTEXT + "site/" + locn.site.name + "/document-details?nodeRef=" + nodeRef.toString(),
+               folderDetailsUrl = Alfresco.constants.URL_PAGECONTEXT + "site/" + locn.site.name + "/folder-details?nodeRef=" + nodeRef.toString();
+
+            if (this.options.simpleView)
+            {
+               /**
+                * Simple View
+                */
+               var id = this.id + '-preview-' + oRecord.getId();
+               if (!record.node.isContainer){
+	               desc = '<span id="' + id + '" class="icon32"><a href="' + docDetailsUrl + '"><img src="' + Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' + Alfresco.util.getFileIcon(name) + '" alt="' + extn + '" title="' + $html(name) + '" /></a></span>';
+	
+	               // Preview tooltip
+	               this.previewTooltips.push(id);
+               }else{
+            	   desc = '<span id="' + id + '" class="icon32"><a href="' + folderDetailsUrl + '"><img src="' + Alfresco.constants.URL_RESCONTEXT + 'components/documentlibrary/images/folder-32.png" alt="folder" title="' + $html(name) + '" /></a></span>';
+               }
+            }
+            else
+            {
+               /**
+                * Detailed View
+                */
+               columnWidth = 100;
+               if (!record.node.isContainer){
+            	   desc = '<span class="thumbnail"><a href="' + docDetailsUrl + '"><img src="' + Alfresco.constants.PROXY_URI + 'api/node/' + nodeRef.uri + '/content/thumbnails/doclib?c=queue&ph=true" alt="' + extn + '" title="' + $html(name) + '" /></a></span>';
+               }else{
+            	   desc = '<span class="thumbnail"><a href="' + folderDetailsUrl + '"><img src="' + Alfresco.constants.URL_RESCONTEXT + 'components/documentlibrary/images/folder-64.png" alt="folder" title="' + $html(name) + '" /></a></span>';
+               }
+            }
+         }
+
+         oColumn.width = columnWidth;
+
+         Dom.setStyle(elCell, "width", oColumn.width + "px");
+         Dom.setStyle(elCell.parentNode, "width", oColumn.width + "px");
+
+         elCell.innerHTML = desc;
+      },
      
       /**
        * Detail custom datacell formatter
@@ -398,49 +465,51 @@ if (typeof(FME.dashlet) == "undefined") FME.dashlet={};
                version = "",
                description = '<span class="faded">' + this.msg("details.description.none") + '</span>',
                dateLine = "",
-               canComment = record.permissions.userAccess.create,
+               canComment = record.node.permissions.user.CreateChildren,
                locn = record.location,
-               nodeRef = new Alfresco.util.NodeRef(record.nodeRef),
-               docDetailsUrl = Alfresco.constants.URL_PAGECONTEXT + "site/" + locn.site + "/document-details?nodeRef=" + nodeRef.toString();
+               nodeRef = (record.workingCopy ? new Alfresco.util.NodeRef(record.workingCopy.sourceNodeRef): new Alfresco.util.NodeRef(record.nodeRef) ),
+               docDetailsUrl = Alfresco.constants.URL_PAGECONTEXT + "site/" + locn.site.name + "/document-details?nodeRef=" + nodeRef.toString(),
+               folderPathUrl = Alfresco.util.siteURL("documentlibrary" + "?path=" + encodeURIComponent( Alfresco.util.combinePaths(record.location.path, record.location.file)),{site: locn.site.name});
 
             // Description non-blank?
-            if (record.description && record.description !== "")
+            if (record.node.properties["cm:description"] && record.node.properties["cm:description"] !== "")
             {
-               description = $links($html(record.description));
+               description = $links($html(record.node.properties["cm:description"]));
             }
 
             // Version display
-            if (record.version && record.version !== "")
+            if (!record.node.isContainer && record.version && record.version !== "")
             {
-               version = '<span class="document-version">' + $html(record.version) + '</span>';
+               version = '<span class="document-version">' + $html((record.workingCopy ? record.workingCopy.workingCopyVersion : record.version)) + '</span>';
             }
             
             // Date line
-            var dateI18N = "modified", dateProperty = record.modifiedOn;
-            if (record.custom && record.custom.isWorkingCopy)
+            var dateI18N = "modified", dateProperty = record.node.properties["cm:modified"].iso8601;
+            if (record.workingCopy)
             {
-               dateI18N = "editing-started";
+            	dateI18N = "editing-started";
             }
-            else if (record.modifiedOn === record.createdOn)
+            else if (record.node.properties["cm:modified"].iso8601 === record.node.properties["cm:created"].iso8601)
             {
-               dateI18N = "created";
-               dateProperty = record.createdOn;
+            	dateI18N = "created";
+            	dateProperty = record.node.properties["cm:created"].iso8601;
             }
             if (Alfresco.constants.SITE === "")
             {
-               dateLine = this.msg("details." + dateI18N + "-in-site", $relTime(dateProperty), $siteDashboard(locn.site, locn.siteTitle, 'class="site-link theme-color-1" id="' + id + '"'));
+            	dateLine = this.msg("details." + dateI18N + "-in-site", $relTime(dateProperty), $siteDashboard(locn.site.name, locn.siteTitle, 'class="site-link theme-color-1" id="' + id + '"'));
             }
             else
             {
-               dateLine = this.msg("details." + dateI18N + "-by", $relTime(dateProperty), $userProfile(record.modifiedByUser, record.modifiedBy, 'class="theme-color-1"'));
-            }
+            	dateLine = this.msg("details." + dateI18N + "-by", $relTime(dateProperty), $userProfile(record.node.properties["cm:modifier"].userName, YAHOO.lang.trim(record.node.properties["cm:modifier"].firstName + " " + record.node.properties["cm:modifier"].lastName), 'class="theme-color-1"'));
+            } 
 
             if (this.options.simpleView)
             {
                /**
                 * Simple View
                 */
-               desc += '<h3 class="filename simple-view"><a class="theme-color-1" href="' + docDetailsUrl + '">' + $html(record.displayName) + '</a></h3>';
+               desc += '<h3 class="filename simple-view"><a class="theme-color-1" href="' +  (record.node.isContainer ? folderPathUrl : docDetailsUrl) + '">' + $html(record.displayName) + '</a></h3>';
+            	
                desc += '<div class="detail"><span class="item-simple">' + dateLine + '</span></div>';
             }
             else
@@ -448,13 +517,14 @@ if (typeof(FME.dashlet) == "undefined") FME.dashlet={};
                /**
                 * Detailed View
                 */
-               desc += '<h3 class="filename"><a class="theme-color-1" href="' + docDetailsUrl + '">' + $html(record.displayName) + '</a>' + version + '</h3>';
+              	
+               desc += '<h3 class="filename"><a class="theme-color-1" href="' + (record.node.isContainer ? folderPathUrl : docDetailsUrl) + '">' + $html(record.displayName) + '</a>' + version + '</h3>';
 
                desc += '<div class="detail">';
                desc +=    '<span class="item">' + dateLine + '</span>';
-               if (this.options.showFileSize)
+               if (this.options.showFileSize && !record.node.isContainer)
                {
-                  desc +=    '<span class="item">' + Alfresco.util.formatFileSize(record.size) + '</span>';
+                  desc +=    '<span class="item">' + Alfresco.util.formatFileSize(record.node.size) + '</span>';
                }
                desc += '</div>';
                desc += '<div class="detail"><span class="item">' + description + '</span></div>';
@@ -465,7 +535,7 @@ if (typeof(FME.dashlet) == "undefined") FME.dashlet={};
                desc +=    '<span class="item item-social item-separator">' + this.generateLikes(this, oRecord) + '</span>';
                if (canComment)
                {
-                  desc +=    '<span class="item item-social item-separator">' + Alfresco.component.SimpleDocList.generateComments(this, oRecord) + '</span>';
+                  desc +=    '<span class="item item-social item-separator">' + this.generateComments(this, oRecord) + '</span>';
                }
                desc += '</div>';
             }
@@ -607,6 +677,22 @@ if (typeof(FME.dashlet) == "undefined") FME.dashlet={};
             this.services.likes.remove(nodeRef, responseConfig);
          }
          //JAN: we don't need that line... this.widgets.alfrescoDataTable.getDataTable().updateRow(record, file);
+      },
+      /**
+       * Generate "Comments" UI
+       *
+       * @method generateComments
+       * @param scope {object} DocumentLibrary instance
+       * @param record {object} DataTable record
+       * @return {string} HTML mark-up for Comments UI
+       */
+      generateComments : function DocumentsForTag_generateComments(scope, record)
+      {
+          var file = record.getData(),
+             url = Alfresco.constants.URL_PAGECONTEXT + "site/" + file.location.site.name + "/" + (file.node.isContainer ? "folder" : "document") + "-details?nodeRef=" + file.nodeRef + "#comment",
+             i18n = "comment." + (file.node.isContainer ? "folder." : "document.");
+
+          return '<a href="' + url + '" class="comment" title="' + scope.msg(i18n + "tip") + '" tabindex="0">' + scope.msg(i18n + "label") + '</a>';
       },
             
       /**
