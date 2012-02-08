@@ -339,8 +339,7 @@ if (typeof(FME.dashlet) == "undefined") FME.dashlet={};
        */
       getWebscriptUrl: function DocumentsForTag_getWebscriptUrl()
       {
-         //return Alfresco.constants.PROXY_URI +"slingshot/doclib/doclist/documents/site/"+Alfresco.constants.SITE+"/documentLibrary?filter=tag";
-    	 return Alfresco.constants.URL_SERVICECONTEXT + "components/documentlibrary/data/doclist/all/site/"+Alfresco.constants.SITE+"/documentLibrary?filter=tag&sortAsc=true&sortField=cm%3Aname&view=browse";
+    	 return Alfresco.constants.URL_SERVICECONTEXT + "components/documentlibrary/data/doclist/all/site/"+Alfresco.constants.SITE+"/documentLibrary?filter=tag&sortAsc=true&sortField="+encodeURIComponent("{http://www.alfresco.org/model/content/1.0}name")+"&view=browse";
       },
 
       /**
@@ -467,7 +466,7 @@ if (typeof(FME.dashlet) == "undefined") FME.dashlet={};
                dateLine = "",
                canComment = record.node.permissions.user.CreateChildren,
                locn = record.location,
-               nodeRef = (record.workingCopy ? new Alfresco.util.NodeRef(record.workingCopy.sourceNodeRef): new Alfresco.util.NodeRef(record.nodeRef) ),
+               nodeRef = ((record.workingCopy &&record.workingCopy.sourceNodeRef) ? new Alfresco.util.NodeRef(record.workingCopy.sourceNodeRef): new Alfresco.util.NodeRef(record.nodeRef) ),
                docDetailsUrl = Alfresco.constants.URL_PAGECONTEXT + "site/" + locn.site.name + "/document-details?nodeRef=" + nodeRef.toString(),
                folderPathUrl = Alfresco.util.siteURL("documentlibrary" + "?path=" + encodeURIComponent( Alfresco.util.combinePaths(record.location.path, record.location.file)),{site: locn.site.name});
 
