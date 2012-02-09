@@ -99,7 +99,10 @@
          }, this, true);
          Alfresco.util.calI18nParams(this.widgets.calendarFrom);
          // setup keyboard enter events on the image instead of the link to get focus outline displayed
-         Alfresco.util.useAsButton(Dom.getElementsByClassName("datepicker-icon", "img", this.id + "-icon-from")[0], this._showPickerFrom, null, this);
+         //3.4.d doesn't havve this util function...
+         if(Alfresco.util.useAsButton){
+        	 Alfresco.util.useAsButton(Dom.getElementsByClassName("datepicker-icon", "img", this.id + "-icon-from")[0], this._showPickerFrom, null, this);
+         }
 
          page = (toDate.getMonth() + 1) + "/" + toDate.getFullYear();
          selected = (toDate.getMonth() + 1) + "/" + toDate.getDate() + "/" + toDate.getFullYear();   
@@ -113,7 +116,10 @@
          }, this, true);
          Alfresco.util.calI18nParams(this.widgets.calendarTo);
          // setup keyboard enter events on the image instead of the link to get focus outline displayed
-         Alfresco.util.useAsButton(Dom.getElementsByClassName("datepicker-icon", "img", this.id + "-icon-to")[0], this._showPickerTo, null, this);
+         //3.4.d doesn't havve this util function...
+         if(Alfresco.util.useAsButton){
+        	 Alfresco.util.useAsButton(Dom.getElementsByClassName("datepicker-icon", "img", this.id + "-icon-to")[0], this._showPickerTo, null, this);
+         }
 
          // setup events
          this.widgets.calendarFrom.selectEvent.subscribe(this._handlePickerChangeFrom, this, true);
