@@ -29,6 +29,7 @@ import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
 import org.alfresco.service.cmr.version.VersionService;
 import org.alfresco.service.cmr.version.VersionType;
+import org.alfresco.service.namespace.NamespaceService;
 import org.alfresco.service.namespace.QName;
 import org.alfresco.service.namespace.RegexQNamePattern;
 import org.apache.commons.logging.Log;
@@ -56,6 +57,9 @@ public class DataListItemPolicies implements OnCreateVersionPolicy, OnCreateAsso
     public static final QName PROP_ASSIGNEE_FULLNAME = QName.createQName(DL_NAMESPACE, "assigneeFullName");
 
     public static final QName ASPECT_ASSIGNEE_HELPER = QName.createQName(DL_NAMESPACE, "assigneeHelper");
+    
+    //http://code.google.com/p/fme-alfresco-extensions/issues/detail?id=15	
+    public static final QName ON_CREATE_VERSION_POLICY_QNAME = QName.createQName(NamespaceService.ALFRESCO_URI, "onCreateVersion");
 
     private Behaviour onCreateVersionBehaviour;
     private Behaviour onCreateAssociationBehaviour;
@@ -75,9 +79,9 @@ public class DataListItemPolicies implements OnCreateVersionPolicy, OnCreateAsso
 
     public void init() {
         
-        this.onCreateVersionBehaviour = new JavaBehaviour(this, OnCreateVersionPolicy.QNAME.getLocalName(),
+        this.onCreateVersionBehaviour = new JavaBehaviour(this, ON_CREATE_VERSION_POLICY_QNAME.getLocalName(),
                 NotificationFrequency.FIRST_EVENT);
-        policyComponent.bindClassBehaviour(OnCreateVersionPolicy.QNAME, QName.createQName(
+        policyComponent.bindClassBehaviour(ON_CREATE_VERSION_POLICY_QNAME, QName.createQName(
                 "http://www.alfresco.org/model/datalist/1.0", "dataListItem"), this.onCreateVersionBehaviour);
         
         this.onCreateAssociationBehaviour = new JavaBehaviour(this, "onCreateAssociation",
