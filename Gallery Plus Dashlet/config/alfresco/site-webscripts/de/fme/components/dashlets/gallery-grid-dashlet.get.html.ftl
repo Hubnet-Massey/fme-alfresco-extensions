@@ -15,7 +15,11 @@
    		"maxImages" : "${maxImages!'100'}",
    		"background" : "${background!''}",
    		"thumbName" : "${thumbName}",
+   	<#if page.url.templateArgs.site?exists>
    		"detailsUrl" : "${url.context}/page/site/${page.url.templateArgs.site!""}/document-details?nodeRef=",
+	<#else>
+   		"detailsUrl" : "${url.context}/page/document-details?nodeRef=",
+   	</#if>
    		"siteId" : "${page.url.templateArgs.site!""}"
    }).setMessages(${messages});
    new Alfresco.widget.DashletResizer("${idJS}", "${instance.object.id}");
