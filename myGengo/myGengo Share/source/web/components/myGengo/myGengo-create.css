@@ -1,0 +1,33 @@
+.myGengo-create .heading {
+    color: #333333;
+    font-size: 154%;
+    padding: 1em;
+}
+.myGengo-create .button {
+	margin-top: 1em;
+}
+.myGengo-create input[type="radio"] {
+	width: 1em;
+}
+.myGengo-create label.radio {
+	display: inline;
+	margin-left: 1em;
+}
+.myGengo-create label.radio {
+	display: inline;
+	margin-left: 0.5em;
+}
+.myGengo-create .form-container select {
+    width: 15em;
+}
+.myGengo-create .form-container .checkbox-field {
+    margin-top: 15px;
+}
+.myGengo-create .form-container .summary {
+    display: inline-block;
+    line-height: 2em;
+}
+.myGengo-create span.total {
+    font-size: 124%;
+    color: #333333;
+}

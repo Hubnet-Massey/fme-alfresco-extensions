@@ -1,0 +1,9 @@
+<webscript>
+   <shortname>Get content as text</shortname>
+   <description>Get content as text of given node</description>
+   <url>/api/mygengo/content?nodeRef={nodeRef}</url>
+   <format default="json">argument</format>
+   <authentication>user</authentication>
+   <family>myGengo</family>
+   <transaction allow="readonly">required</transaction>
+</webscript>

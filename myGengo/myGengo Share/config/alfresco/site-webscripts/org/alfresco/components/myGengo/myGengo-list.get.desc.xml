@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>myGengo-list</shortname>
+  <description>Site myGengo job list component</description>
+  <url>/components/myGengo-list</url>
+  <family>myGengo</family>
+</webscript>

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Definition of custom myGengo Model -->
+
+
+<model name="myGengo:myGengoModel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+
+   <!-- Meta-data about the model -->
+   <description>myGengo translations Model</description>
+   <author>Jan Pfitzner (www.fme.de)</author>
+   <version>1.0</version>
+
+   <!-- Imports are required to allow references to definitions in other models -->
+   <imports>
+      <!-- Import Alfresco Dictionary Definitions -->
+      <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+      <!-- Import Alfresco Content Domain Model Definitions -->
+      <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+   </imports>
+
+   <!-- Data List Namespace -->
+   <namespaces>
+      <namespace uri="http://www.mygengo.com/model/alfresco/1.0" prefix="myGengo"/>
+   </namespaces>
+   
+    <constraints>
+      <constraint name="myGengo:tier" type="LIST">
+         <parameter name="allowedValues">
+            <list>
+               <value>standard</value>
+               <value>pro</value>
+               <value>ultra</value>
+            </list>
+         </parameter>
+      </constraint>
+      <constraint name="myGengo:status" type="LIST">
+         <parameter name="allowedValues">
+            <list>
+               <value>available</value>
+               <value>pending</value>
+               <value>reviewable</value>
+               <value>revising</value>
+               <value>approved</value>
+               <value>cancelled</value>
+               <value>unpaid</value>
+               <value>held</value>
+            </list>
+         </parameter>
+      </constraint>
+      <constraint name="myGengo:unitType" type="LIST">
+         <parameter name="allowedValues">
+            <list>
+               <value>word</value>
+               <value>character</value>
+            </list>
+         </parameter>
+      </constraint>
+       <constraint name="myGengo:rejectReason" type="LIST">
+         <parameter name="allowedValues">
+            <list>
+               <value>quality</value>
+               <value>incomplete</value>
+               <value>other</value>
+            </list>
+         </parameter>
+      </constraint>
+       <constraint name="myGengo:feedback" type="MINMAX">
+         <parameter name="minValue">
+            <value>1</value>
+         </parameter>
+         <parameter name="maxValue">
+            <value>5</value>
+         </parameter>
+      </constraint>
+   </constraints>
+   
+   <types>
+   	<type name="myGengo:translationJob">
+         <title>myGengo translation job</title>
+         <parent>cm:cmobject</parent>
+         <archive>true</archive>
+         <properties>
+            <property name="myGengo:jobId">
+               <type>d:text</type>
+               <mandatory>true</mandatory>
+            </property>
+            <property name="myGengo:title">
+               <type>d:text</type>
+               <mandatory>true</mandatory>
+               <index enabled="true">
+				  <atomic>true</atomic>
+				  <stored>false</stored> 
+                  <tokenised>both</tokenised>
+               </index>
+            </property>
+            <property name="myGengo:text">
+               <type>d:text</type>
+               <mandatory>true</mandatory>
+               <index enabled="true">
+				  <atomic>true</atomic>
+				  <stored>false</stored> 
+                  <tokenised>both</tokenised>
+               </index>
+            </property>
+            <property name="myGengo:translation">
+               <type>d:text</type>
+               <index enabled="true">
+				  <atomic>true</atomic>
+				  <stored>false</stored> 
+                  <tokenised>both</tokenised>
+               </index>
+            </property>
+            <property name="myGengo:translationPreview">
+               <type>d:content</type>
+               <index enabled="false"/>
+            </property>
+            <property name="myGengo:tier">
+               <type>d:text</type>
+               <mandatory>true</mandatory>
+               <constraints>
+                  <constraint ref="myGengo:tier" />
+               </constraints>
+            </property>
+            <property name="myGengo:status">
+               <type>d:text</type>
+               <mandatory>true</mandatory>
+               <constraints>
+                  <constraint ref="myGengo:status" />
+               </constraints>
+            </property>
+            <property name="myGengo:jobCredits">
+               <type>d:text</type>
+               <mandatory>true</mandatory>
+            </property>
+            <property name="myGengo:unitCount">
+               <type>d:long</type>
+               <mandatory>true</mandatory>
+            </property>
+            <property name="myGengo:unitType">
+               <type>d:text</type>
+               <mandatory>true</mandatory>
+               <constraints>
+                  <constraint ref="myGengo:unitType" />
+               </constraints>
+            </property>
+            <property name="myGengo:eta">
+               <type>d:long</type>
+               <mandatory>true</mandatory>
+            </property>
+            <property name="myGengo:sourceLanguage">
+               <type>d:text</type>
+               <mandatory>true</mandatory>
+            </property>
+            <property name="myGengo:targetLanguage">
+               <type>d:text</type>
+               <mandatory>true</mandatory>
+            </property>
+            <property name="myGengo:modified">
+               <type>d:datetime</type>
+               <mandatory>true</mandatory>
+            </property>
+            <property name="myGengo:autoApprove">
+               <type>d:boolean</type>
+               <mandatory>true</mandatory>
+               <default>false</default>
+            </property>
+            <property name="myGengo:captchaUrl">
+               <type>d:text</type>
+            </property>
+            <property name="myGengo:previewUrl">
+               <type>d:text</type>
+            </property>
+         </properties>
+   	</type>
+
+   </types>
+
+   <aspects>
+      <aspect name="myGengo:account">
+      	<title>myGengo API keys</title>
+      	<properties>      	
+      		<property name="myGengo:privateKey">
+      			<type>d:text</type>
+      			<mandatory>true</mandatory>
+      		</property>
+      		<property name="myGengo:appName">
+      			<type>d:text</type>
+      			<mandatory>true</mandatory>
+      		</property>
+      		<property name="myGengo:publicKey">
+      			<type>d:text</type>
+      			<mandatory>true</mandatory>
+      		</property>
+      		<property name="myGengo:credits">
+      			<type>d:text</type>
+      		</property>
+      		<property name="myGengo:creditsSpent">
+      			<type>d:text</type>
+      		</property>
+      		<property name="myGengo:userSince">
+      			<type>d:datetime</type>
+      		</property>
+      	</properties>
+      </aspect>     
+      <aspect name="myGengo:languages">
+      	<title>myGengo language pairs</title>
+      	<properties>      	
+      		<property name="myGengo:languages">
+      			<type>d:text</type>
+      			<mandatory>true</mandatory>
+      			<index enabled="false"/>
+      		</property>
+      	</properties>
+      </aspect>
+      <aspect name="myGengo:comment">
+      	<title>myGengo comment pairs</title>
+      	<properties>      	
+      		<property name="myGengo:commentModifiedTime">
+      			<type>d:long</type>
+      		</property>
+      	</properties>
+      </aspect>     
+      <aspect name="myGengo:approved">
+      	<title>myGengo approved data</title>
+      	<properties>      	
+      		<property name="myGengo:translatorFeedback">
+      			<type>d:text</type>
+      		</property>
+      		<property name="myGengo:myGengoFeedback">
+      			<type>d:text</type>
+      		</property>
+      		<property name="myGengo:rating">
+      			<type>d:int</type>
+      			<mandatory>true</mandatory>
+      			<default>3</default>
+				<constraints>
+					<constraint ref="myGengo:feedback" />
+				</constraints>
+      		</property>
+      		<property name="myGengo:feedbackPublic">
+      			<type>d:boolean</type>
+      			<default>false</default>
+      		</property>
+      	</properties>
+      </aspect>     
+      <aspect name="myGengo:revised">
+      	<title>myGengo revised data</title>
+      	<properties>      	
+      		<property name="myGengo:reviseComment">
+      			<type>d:text</type>
+      			<mandatory>true</mandatory>
+      		</property>
+      	</properties>
+      </aspect>     
+      <aspect name="myGengo:rejected">
+      	<title>myGengo rejected data</title>
+      	<properties>      	
+      		<property name="myGengo:rejectReason">
+      			<type>d:text</type>
+      			<mandatory>true</mandatory>
+      			<default>other</default>
+      			<constraints>
+					<constraint ref="myGengo:rejectReason" />
+				</constraints>
+      		</property>
+      		<property name="myGengo:rejectComment">
+      			<type>d:text</type>
+      			<mandatory>true</mandatory>
+      		</property>
+      		<property name="myGengo:rejectCaptcha">
+      			<type>d:text</type>
+      			<mandatory>true</mandatory>
+      		</property>
+      		<property name="myGengo:rejectRequeue">
+      			<type>d:boolean</type>
+      			<mandatory>true</mandatory>
+      			<default>true</default>
+      		</property>
+      	</properties>
+      </aspect>     
+   </aspects>
+
+</model>

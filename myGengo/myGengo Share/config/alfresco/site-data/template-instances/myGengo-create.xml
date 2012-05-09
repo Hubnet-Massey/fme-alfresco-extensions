@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template-instance>
+   <template-type>org/alfresco/myGengo-create</template-type>
+   <description>MyGengo create Job</description>
+   <properties>
+      <pageFamily>myGengo</pageFamily>
+      <container>myGengo</container>
+   </properties>
+   <components>
+      <component>
+         <region-id>title</region-id>
+         <url>/components/title/collaboration-title</url>
+      </component>
+      <component>
+         <region-id>navigation</region-id>
+         <url>/components/navigation/collaboration-navigation</url>
+      </component>
+      <component>
+         <region-id>myGengo-bar</region-id>
+         <url>/components/myGengo-bar</url>
+      </component>
+      <component>
+         <region-id>myGengo-create</region-id>
+         <url>/components/myGengo-create</url>
+      </component>
+   </components>
+</template-instance>

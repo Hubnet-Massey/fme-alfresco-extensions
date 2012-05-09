@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page>
+   <id>myGengo-account</id>
+   <page-type>myGengo-account</page-type>
+   <title>myGengo Account Info</title>
+   <title-id>page.myGengo-account.title</title-id>
+   <description>myGengo Account Info</description>
+   <description-id>page.myGengo-account.description</description-id>
+   <template-instance>myGengo-account</template-instance>
+   <authentication>user</authentication>
+</page>

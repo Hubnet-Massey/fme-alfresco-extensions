@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>myGengo-create</shortname>
+  <description>myGengo create job component</description>
+  <url>/components/myGengo-create</url>
+  <family>myGengo</family>
+</webscript>

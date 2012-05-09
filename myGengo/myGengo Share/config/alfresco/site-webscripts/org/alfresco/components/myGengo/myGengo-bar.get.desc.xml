@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>myGengo-bar</shortname>
+  <description>Site myGengo toolbar component</description>
+  <url>/components/myGengo-bar</url>
+  <family>myGengo</family>
+</webscript>

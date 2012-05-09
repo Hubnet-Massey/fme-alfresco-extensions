@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="source/java"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/share/alfresco-share-3.4.6.jar" sourcepath="/ALFRESCO_SDK_346/src/alfresco-share-src.zip"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/spring-surf/spring-surf-1.0.0.CI-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/spring-surf/spring-surf-api-1.0.0.CI-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/spring-surf/spring-surf-core-1.0.0.CI-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/spring-surf/spring-surf-core-configservice-1.0.0.CI-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/spring-surf/spring-webeditor-1.0.0.CI-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/spring-surf/spring-webeditor-client-jsp-1.0.0.CI-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/spring-surf/spring-webscripts-1.0.0.CI-SNAPSHOT-tests.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/spring-surf/spring-webscripts-1.0.0.CI-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/spring-surf/spring-webscripts-api-1.0.0.CI-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/org.springframework.beans-3.0.0.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/org.springframework.context-3.0.0.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/org.springframework.context.support-3.0.0.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/org.springframework.core-3.0.0.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/org.springframework.expression-3.0.0.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/org.springframework.web-3.0.0.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/org.springframework.webmvc-3.0.0.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/json.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/j2ee/jsp.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/j2ee/servlet.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/freemarker-2.3.18-patched.jar"/>
+	<classpathentry kind="var" path="ALFRESCO_SDK_346/lib/server/dependencies/commons/commons-logging-1.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

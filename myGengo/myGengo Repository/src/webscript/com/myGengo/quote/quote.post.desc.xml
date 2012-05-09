@@ -1,0 +1,9 @@
+<webscript>
+   <shortname>Get myGengo quote</shortname>
+   <description>Get a quote by myGengo</description>
+   <url>/api/mygengo/site/{site}/{container}/quote</url>
+   <format default="json">argument</format>
+   <authentication>user</authentication>
+   <family>myGengo</family>
+   <transaction allow="readonly">required</transaction>
+</webscript>

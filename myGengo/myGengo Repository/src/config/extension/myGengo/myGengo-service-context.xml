@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="mygengo-properties"
+          parent="common-placeholder-configurer" class="org.alfresco.config.JndiPropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:alfresco/extension/myGengo/myGengo.properties</value>
+            </list>
+        </property>
+        <property name="order">
+            <value>11</value>
+        </property>
+    </bean>
+	
+    <bean id="myGengoAccountService" class="com.myGengo.alfresco.account.MyGengoAccountServiceImpl">
+        <property name="useSandbox">
+                <value>${mygengo.sandbox}</value>
+        </property>
+        <property name="nodeService" ref="NodeService" />
+    </bean>
+    <bean id="myGengoTranslationService" class="com.myGengo.alfresco.translate.MyGengoTranslationServiceImpl">
+        <property name="useSandbox">
+                <value>${mygengo.sandbox}</value>
+        </property>
+        <property name="nodeService" ref="NodeService" />
+        <property name="contentService" ref="ContentService" />
+        <property name="accountService" ref="myGengoAccountService" />
+        <property name="transactionService" ref="TransactionService" />
+        <property name="jobLockService" ref="JobLockService" />
+    </bean>
+    
+    <bean id="myGengoScript" parent="baseJavaScriptExtension" class="com.myGengo.alfresco.MyGengoScript">
+        <property name="extensionName">
+            <value>myGengo</value>
+        </property>        
+        <property name="accountService" ref="myGengoAccountService" />
+        <property name="translationService" ref="myGengoTranslationService" />
+        <property name="serviceRegistry" ref="ServiceRegistry" />
+    </bean>
+
+	<bean id="myGengoPollingJob" class="com.myGengo.alfresco.polling.MyGengoPollingJob">
+		<property name="accountService" ref="myGengoAccountService" />
+        <property name="translationService" ref="myGengoTranslationService" />
+        <property name="nodeService" ref="NodeService" />
+        <property name="transactionService" ref="TransactionService" />
+        <property name="siteService" ref="SiteService" />
+        <property name="jobLockService" ref="JobLockService" />
+        <property name="runAsUser">
+			<value>System</value>
+		</property>
+	</bean>
+
+	<bean id="myGengoPollingJobTrigger" class="org.alfresco.util.TriggerBean">
+		<property name="jobDetail">
+			<bean
+				class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+				<property name="targetObject" ref="myGengoPollingJob" />
+				<property name="targetMethod" value="execute" />
+				<property name="concurrent" value="false" />
+			</bean>
+		</property>
+		<property name="scheduler">
+            <ref bean="schedulerFactory" />
+        </property>
+         <property name="startDelayMinutes">
+            <value>1</value>
+        </property>
+        <property name="repeatIntervalMinutes">
+            <value>${mygengo.polling.interval}</value>
+        </property>
+	</bean>
+    
+	<bean id="myGengoFormFilter" class="com.myGengo.alfresco.form.MyGengoFormFilter" parent="baseFormFilter">
+		<property name="nodeService" ref="nodeService" />
+		<property name="contentService" ref="contentService" />
+		<property name="translationService" ref="myGengoTranslationService" />
+		<property name="accountService" ref="myGengoAccountService" />
+		<property name="filterRegistry" ref="nodeFilterRegistry" />
+		<property name="namespaceService" ref="namespaceService"/>
+	</bean>
+	
+	<!-- MyGenge Policy -->
+  <bean id="MyGengoPolicies" class="com.myGengo.alfresco.policy.MyGengoPolicies" init-method="init">
+    <property name="policyComponent" ref="policyComponent"/>
+    <property name="nodeService" ref="nodeService" />
+    <property name="contentService" ref="contentService" />
+    <property name="translationService" ref="myGengoTranslationService" />
+	<property name="accountService" ref="myGengoAccountService" />
+  </bean>
+  
+  <bean id="webscript.com.myGengo.content.content.get"
+         class="com.myGengo.alfresco.webscripts.NodeContentGet"
+         parent="webscript">
+      <property name="contentService" ref="ContentService"/>
+   </bean>	
+</beans>

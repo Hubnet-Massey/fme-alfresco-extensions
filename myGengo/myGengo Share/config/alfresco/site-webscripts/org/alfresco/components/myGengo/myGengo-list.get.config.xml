@@ -1,0 +1,12 @@
+<dataGrid>
+   <actionSet>
+      <action type="action-link" id="onActionView" permission="" label="actions.view" />
+      <action type="action-link" id="onActionComment" permission="comment" label="actions.comment" />
+      <action type="action-link" id="onActionCancel" permission="edit,cancel" label="actions.cancel" />
+      <action type="action-link" id="onActionApprove" permission="edit,approve" label="actions.approve" />
+      <action type="action-link" id="onActionRevise" permission="edit,revise" label="actions.revise" />
+      <action type="action-link" id="onActionReject" permission="edit,reject" label="actions.reject" />
+      <action type="action-link" id="onActionDelete" permission="delete" label="actions.delete" />
+      <action type="action-link" id="onActionRefresh" permission="edit" label="actions.refresh" />
+   </actionSet>
+</dataGrid>

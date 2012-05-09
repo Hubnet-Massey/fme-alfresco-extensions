@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>myGengo-account</shortname>
+  <description>Site myGengo account info component</description>
+  <url>/components/myGengo-account</url>
+  <family>myGengo</family>
+</webscript>

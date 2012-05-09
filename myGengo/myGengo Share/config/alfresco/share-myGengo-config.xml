@@ -1,0 +1,402 @@
+<alfresco-config>
+
+    <config evaluator="string-compare" condition="SitePages">
+      <pages>
+         <page id="calendar">calendar</page>
+         <page id="wiki-page">wiki-page?title=Main_Page</page>
+         <page id="documentlibrary">documentlibrary</page>
+         <page id="discussions-topiclist">discussions-topiclist</page>
+         <page id="blog-postlist">blog-postlist</page>
+         <page id="links">links</page>
+         <page id="data-lists">data-lists</page>
+         <page id="myGengo">myGengo</page>
+      </pages>
+   </config>
+   
+   <config evaluator="string-compare" condition="DocLibCustom">
+     
+         <dependencies>
+            <css src="modules/myGengo/myGengo-actions.css" />
+            <js src="modules/myGengo/myGengo-actions.js" />
+         </dependencies>
+   </config>
+   
+   <!-- Document Library Actions config section -->
+   <config evaluator="string-compare" condition="DocLibActions">
+      <actions>
+         <action id="document-translate-myGengo" type="pagelink" label="actions.document.translate-myGengo">
+            <param name="page">myGengo-create?nodeRef={node.nodeRef}</param>
+         </action>
+      </actions>
+
+      <actionGroups>
+         <actionGroup id="document-browse">
+            <action index="205" id="document-translate-myGengo" />
+         </actionGroup>
+
+         <actionGroup id="document-details">
+            <action index="205" id="document-translate-myGengo" />
+         </actionGroup>
+      </actionGroups>
+   </config>
+   
+   <config>
+   		<forms>
+      		<dependencies>
+         		<css src="/components/myGengo/form/comments.css" />
+         		<css src="/components/myGengo/form/myGengo-form.css" />
+         		<css src="/components/myGengo/form/rating.css" />
+         		<js src="/components/myGengo/form/rating.js" />
+         		<js src="/components/myGengo/form/comments.js" />
+         		<js src="/components/myGengo/form/reject-validator.js" />
+         		<css src="/components/blog/createcomment.css" />
+         		<js src="/components/blog/createcomment.js" />
+         		<js src="/components/blog/blogdiscussions-common.js" />
+      		</dependencies>
+	   </forms>
+	</config>   
+	
+   <!-- myGengo:approved form config-->
+   <config evaluator="aspect" condition="myGengo:approved">
+   		<forms>
+      	 
+         <form>
+            <field-visibility>
+               <show id="myGengo:translatorFeedback" />
+               <show id="myGengo:rating" />
+               <show id="myGengo:myGengoFeedback" />
+            </field-visibility>
+         </form>
+   		</forms> 
+   </config>
+   <!-- myGengo:revised form config-->
+   <config evaluator="aspect" condition="myGengo:revised">
+   		<forms>
+      	 <!-- view form -->	
+         <form>
+            <field-visibility>
+               <show id="myGengo:reviseComment" for-mode="view"/>
+            </field-visibility>
+         </form>
+   		</forms>
+   </config>
+   <!-- myGengo:revised form config-->
+   <config evaluator="aspect" condition="myGengo:rejected">
+   		<forms>
+      	 <!-- view form -->	
+         <form>
+            <field-visibility>
+               <show id="myGengo:rejectComment" for-mode="view"/>
+               <show id="myGengo:rejectReason" for-mode="view"/>
+               <show id="myGengo:rejectRequeue" for-mode="view"/>
+            </field-visibility>
+         </form>
+   		</forms>
+   </config>
+   <!-- myGengo:translationJob form config-->
+   <config evaluator="node-type" condition="myGengo:translationJob">
+      <forms>
+      	 <!-- view form -->	
+         <form>
+            <field-visibility>
+               <show id="myGengo:title" for-mode="view"/>
+               <show id="myGengo:text" for-mode="view"/>
+               <show id="myGengo:translation" for-mode="view"/>
+               <show id="myGengo:translationPreview" for-mode="view"/>
+               <show id="myGengo:tier" for-mode="view"/>
+               <show id="myGengo:status" for-mode="view"/>
+               <show id="myGengo:autoApprove" for-mode="view"/>
+               <show id="myGengo:jobCredits" for-mode="view"/>
+               <show id="myGengo:targetLanguage" for-mode="view"/>
+               <show id="myGengo:sourceLanguage" for-mode="view"/>
+               <show id="cm:created" for-mode="view"/>
+               <show id="myGengo:modified" for-mode="view"/>
+                <show id="fm:discussable" for-mode="view"/>
+            </field-visibility>
+            <view-form template="../myGengo/form/myGengo-view.ftl" />
+            <appearance>
+               <set id="normal" appearance=""/>
+               <set id="language" parent="normal" appearance="" template="/org/alfresco/components/myGengo/form/3-column-set.ftl"/>
+               <set id="status" parent="normal" appearance="" template="/org/alfresco/components/myGengo/form/3-column-set.ftl"/>
+               <set id="approved" parent="normal" appearance="" template="/org/alfresco/components/myGengo/form/3-column-set.ftl"/>
+               <set id="revised" parent="normal" appearance="" template="/org/alfresco/components/myGengo/form/3-column-set.ftl"/>
+               <set id="rejected" parent="normal" appearance="" template="/org/alfresco/components/myGengo/form/3-column-set.ftl"/>
+               <set id="dates" parent="normal" appearance="" template="/org/alfresco/components/myGengo/form/3-column-set.ftl"/>
+               <set id="other" appearance=""/>	
+               <field id="myGengo:title" label-id="mygengo.form.label.title" read-only="true" set="normal"/>
+               <field id="myGengo:text" label-id="mygengo.form.label.text" read-only="true" set="normal"/>
+               <field id="myGengo:translation" label-id="mygengo.form.label.translation" read-only="true" set="normal"/>
+               <field id="myGengo:translationPreview" label-id="mygengo.form.label.translationPreview" read-only="true" set="normal">
+               		<control template="/org/alfresco/components/myGengo/form/controls/image-view.ftl"/>
+               </field>
+               
+               <field id="myGengo:sourceLanguage" label-id="mygengo.form.label.sourceLanguage" read-only="true" set="language"/>
+               <field id="myGengo:targetLanguage" label-id="mygengo.form.label.targetLanguage" read-only="true" set="language"/>
+               <field id="myGengo:tier" label-id="mygengo.form.label.tier" read-only="true" set="language"/>
+               
+               <field id="myGengo:autoApprove" label-id="mygengo.form.label.autoApprove" read-only="true" set="status">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:jobCredits" label-id="mygengo.form.label.credits" read-only="true" set="status"/>
+               <field id="myGengo:status" label-id="mygengo.form.label.status" read-only="true" set="status"/>
+               
+               <field id="myGengo:translatorFeedback" label-id="mygengo.form.label.translatorFeedback" read-only="true" set="approved"/>
+               <field id="myGengo:rating" label-id="mygengo.form.label.rating" read-only="true" set="approved">
+               		<control template="/org/alfresco/components/myGengo/form/controls/rating.ftl"/>
+               </field>
+               <field id="myGengo:myGengoFeedback" label-id="mygengo.form.label.myGengoFeedback" read-only="true" set="approved"/>
+               
+               <field id="myGengo:reviseComment" label-id="mygengo.form.label.reviseComment" read-only="true" set="revised"/>
+
+               <field id="myGengo:rejectComment" label-id="mygengo.form.label.rejectComment" read-only="true" set="rejected"/>
+               <field id="myGengo:rejectReason" label-id="mygengo.form.label.rejectReason" read-only="true" set="rejected">
+               		<control template="/org/alfresco/components/myGengo/form/controls/info-i18n.ftl">
+               			<control-param name="i18n">mygengo.form.value.rejectReason</control-param>
+               		</control>
+               </field>
+               <field id="myGengo:rejectRequeue" label-id="mygengo.form.label.rejectRequeue" read-only="true" set="rejected"/>
+               
+               <field id="cm:created" label-id="mygengo.form.label.ordered" read-only="true" set="dates">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:modified" label-id="mygengo.form.label.modified" read-only="true" set="dates">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="fm:discussable" label-id="mygengo.form.label.comments" set="other">
+                  <control template="/org/alfresco/components/myGengo/form/controls/comments.ftl">
+                  	<control-param name="editorWidth">450</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+         
+         <!-- comment form -->
+         <form id="comment-form">
+            <field-visibility>
+               <show id="myGengo:title" />
+               <show id="myGengo:text" />
+               <show id="myGengo:translation" />
+               <show id="myGengo:translationPreview" />
+               <show id="myGengo:tier" />
+               <show id="myGengo:status" />
+               <show id="myGengo:autoApprove" />
+               <show id="myGengo:jobCredits" />
+               <show id="myGengo:targetLanguage" />
+               <show id="myGengo:sourceLanguage" />
+               <show id="cm:created" />
+               <show id="myGengo:modified" />
+               <show id="fm:discussable"/>
+            </field-visibility>
+            <edit-form template="../myGengo/form/myGengo-edit.ftl" />
+            <appearance>
+               <set id="normal" appearance=""/>
+               <set id="language" parent="normal" appearance="" template="/org/alfresco/components/myGengo/form/3-column-set.ftl"/>
+               <set id="status" parent="normal" appearance="" template="/org/alfresco/components/myGengo/form/3-column-set.ftl"/>
+               <set id="dates" parent="normal" appearance="" template="/org/alfresco/components/myGengo/form/3-column-set.ftl"/>
+               <set id="other" appearance=""/>	
+               <field id="myGengo:title" label-id="mygengo.form.label.title" read-only="true" set="normal">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:text" label-id="mygengo.form.label.text" read-only="true" set="normal">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:translation" label-id="mygengo.form.label.translation" read-only="true" set="normal">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:translationPreview" label-id="mygengo.form.label.translationPreview" read-only="true" set="normal">
+               		<control template="/org/alfresco/components/myGengo/form/controls/image-view.ftl"/>
+               </field>
+               
+               <field id="myGengo:sourceLanguage" label-id="mygengo.form.label.sourceLanguage" read-only="true" set="language">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:targetLanguage" label-id="mygengo.form.label.targetLanguage" read-only="true" set="language">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:tier" label-id="mygengo.form.label.tier" read-only="true" set="language">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               
+               <field id="myGengo:autoApprove" label-id="mygengo.form.label.autoApprove" read-only="true" set="status">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:jobCredits" label-id="mygengo.form.label.credits" read-only="true" set="status">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:status" label-id="mygengo.form.label.status" read-only="true" set="status">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               
+              <field id="cm:created" label-id="mygengo.form.label.ordered" read-only="true" set="dates">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:modified" label-id="mygengo.form.label.modified" read-only="true" set="dates">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="fm:discussable" label-id="mygengo.form.label.comments" set="other">
+                  <control template="/org/alfresco/components/myGengo/form/controls/comments.ftl">
+                  	<control-param name="editorWidth">300</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+         
+         <!-- approve form -->
+         <form id="approve-form">
+            <field-visibility>
+               <show id="myGengo:title" />
+               <show id="myGengo:text" />
+               <show id="myGengo:translationPreview" />
+               <show id="myGengo:rating" force="true" />
+               <show id="myGengo:translatorFeedback" force="true" />
+               <show id="myGengo:myGengoFeedback" force="true" />
+               <show id="myGengo:feedbackPublic" force="true" />
+               <show id="fm:discussable"/>
+            </field-visibility>
+            <edit-form template="../myGengo/form/myGengo-edit.ftl" />
+            <appearance>
+               <set id="normal" appearance=""/>
+               <set id="other" appearance=""/>	
+               <field id="myGengo:title" label-id="mygengo.form.label.title" read-only="true" set="normal">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:text" label-id="mygengo.form.label.text" read-only="true" set="normal">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:translationPreview" label-id="mygengo.form.label.translationPreview" read-only="true" set="normal">
+               		<control template="/org/alfresco/components/myGengo/form/controls/image-view.ftl"/>
+               </field>
+               <field id="myGengo:rating" label-id="mygengo.form.label.rating" set="normal">
+               		<control template="/org/alfresco/components/myGengo/form/controls/rating.ftl">
+               			<control-param name="forceEditable">true</control-param>
+               		</control>
+               </field>
+               <field id="myGengo:translatorFeedback" label-id="mygengo.form.label.translatorFeedback" set="normal">
+               		<control template="/org/alfresco/components/form/controls/textarea.ftl">
+               			<control-param name="rows">5</control-param>
+                  		<control-param name="style">width:500px</control-param>
+                  		<control-param name="forceEditable">true</control-param>
+               		</control>
+               </field>
+               <field id="myGengo:myGengoFeedback" label-id="mygengo.form.label.myGengoFeedback" set="normal">
+               		<control template="/org/alfresco/components/form/controls/textarea.ftl">
+               			<control-param name="rows">5</control-param>
+                  		<control-param name="style">width:500px</control-param>
+                  		<control-param name="forceEditable">true</control-param>
+               		</control>
+               </field>
+               <field id="myGengo:feedbackPublic" label-id="mygengo.form.label.feedbackPublic" set="normal">
+             	 	<control template="/org/alfresco/components/form/controls/checkbox.ftl">
+                  		<control-param name="forceEditable">true</control-param>
+               		</control>
+               </field>
+               <field id="fm:discussable" label-id="mygengo.form.label.comments" set="other">
+                  <control template="/org/alfresco/components/myGengo/form/controls/comments.ftl">
+                  	<control-param name="editorWidth">300</control-param>
+                  	<control-param name="disabled">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+         <!-- revise form -->
+         <form id="revise-form">
+            <field-visibility>
+               <show id="myGengo:title" />
+               <show id="myGengo:text" />
+               <show id="myGengo:translationPreview" />
+               <show id="myGengo:reviseComment" force="true" />
+               <show id="fm:discussable"/>
+            </field-visibility>
+            <edit-form template="../myGengo/form/myGengo-edit.ftl" />
+            <appearance>
+               <set id="normal" appearance=""/>
+               <set id="other" appearance=""/>	
+               <field id="myGengo:title" label-id="mygengo.form.label.title" read-only="true" set="normal">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:text" label-id="mygengo.form.label.text" read-only="true" set="normal">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:translationPreview" label-id="mygengo.form.label.translationPreview" read-only="true" set="normal">
+               		<control template="/org/alfresco/components/myGengo/form/controls/image-view.ftl"/>
+               </field>
+               <field id="myGengo:reviseComment" label-id="mygengo.form.label.reviseComment" set="normal">
+               		<control template="/org/alfresco/components/form/controls/textarea.ftl">
+               			<control-param name="rows">5</control-param>
+                  		<control-param name="style">width:500px</control-param>
+                  		<control-param name="forceEditable">true</control-param>
+               		</control>
+               </field>
+               <field id="fm:discussable" label-id="mygengo.form.label.comments" set="other">
+                  <control template="/org/alfresco/components/myGengo/form/controls/comments.ftl">
+                  	<control-param name="editorWidth">300</control-param>
+                  	<control-param name="disabled">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+         <!-- reject form -->
+         <form id="reject-form">
+            <field-visibility>
+               <show id="myGengo:title" />
+               <show id="myGengo:text" />
+               <show id="myGengo:translationPreview" />
+               <show id="myGengo:rejectReason" force="true" />
+               <show id="myGengo:rejectComment" force="true" />
+               <show id="myGengo:rejectRequeue" force="true" />
+               <show id="myGengo:captchaUrl" />
+               <show id="fm:discussable"/>
+            </field-visibility>
+            <edit-form template="../myGengo/form/myGengo-edit.ftl" />
+            <appearance>
+               <set id="normal" appearance=""/>
+               <set id="other" appearance=""/>	
+               <field id="myGengo:title" label-id="mygengo.form.label.title" read-only="true" set="normal">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:text" label-id="mygengo.form.label.text" read-only="true" set="normal">
+               		<control template="/org/alfresco/components/form/controls/info.ftl"/>
+               </field>
+               <field id="myGengo:translationPreview" label-id="mygengo.form.label.translationPreview" read-only="true" set="normal">
+               		<control template="/org/alfresco/components/myGengo/form/controls/image-view.ftl"/>
+               </field>
+               <field id="myGengo:rejectReason" label-id="mygengo.form.label.rejectReason" set="normal">
+               		<control template="/org/alfresco/components/myGengo/form/controls/selectone-radio.ftl">
+               			<control-param name="options">quality|{mygengo.form.value.rejectReason.quality},incomplete|{mygengo.form.value.rejectReason.incomplete},other|{mygengo.form.value.rejectReason.other}</control-param>
+               		</control>
+               </field>
+               <field id="myGengo:rejectComment" label-id="mygengo.form.label.rejectComment" set="normal">
+               		<constraint-handlers>
+	                  <constraint type="MANDATORY" validation-handler="MyGengo.forms.validation.rejectCommentMandatory" event="keyup" />
+	               </constraint-handlers>
+               		<control template="/org/alfresco/components/form/controls/textarea.ftl">
+               			<control-param name="rows">5</control-param>
+                  		<control-param name="style">width:500px</control-param>
+                  		<control-param name="forceEditable">true</control-param>
+               		</control>
+               </field>
+               <field id="myGengo:rejectRequeue" label-id="mygengo.form.label.rejectRequeue" mandatory="true" set="normal">
+               	<control template="/org/alfresco/components/myGengo/form/controls/selectone-radio.ftl">
+               			<control-param name="options">true|{mygengo.form.value.rejectRequeue.true},false|{mygengo.form.value.rejectRequeue.false}</control-param>
+               		</control>
+               </field>
+               <field id="myGengo:captchaUrl" label-id="mygengo.form.label.rejectCaptcha" mandatory="true" set="normal">
+               		<control template="/org/alfresco/components/myGengo/form/controls/captcha.ftl">
+               			<control-param name="weburl">true</control-param>
+               			<control-param name="name">prop_myGengo_rejectCaptcha</control-param>
+               			<control-param name="style">width:115px</control-param>
+               		</control>
+               </field>
+               <field id="fm:discussable" label-id="mygengo.form.label.comments" set="other">
+                  <control template="/org/alfresco/components/myGengo/form/controls/comments.ftl">
+                  	<control-param name="editorWidth">300</control-param>
+                  	<control-param name="disabled">true</control-param>
+                  </control>
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+  
+
+</alfresco-config>

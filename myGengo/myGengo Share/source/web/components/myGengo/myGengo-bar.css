@@ -1,0 +1,24 @@
+.myGengo-bar {
+    border-bottom: 1px solid #C7CCCE;
+    clear: left;
+    margin: 0 -10px 1px;
+    min-height: 1.2em;
+    padding: 2px 1em;
+}
+
+.myGengo-bar .account-info button {
+    background: url("images/info-16.png") no-repeat scroll 12px 4px transparent;
+    padding-left: 32px;
+}
+.myGengo-bar .create-job button {
+    background: url("images/add-16.png") no-repeat scroll 12px 4px transparent;
+    padding-left: 32px;
+}
+.myGengo-bar .refresh-jobs button {
+    background: url(images/refresh-16.png) no-repeat scroll 12px 4px transparent;
+    padding-left: 32px;
+}
+.myGengo-bar .job-list button {
+    background: url("../images/forward-arrow-16.png") no-repeat scroll 12px 4px transparent;
+    padding-left: 32px;
+}

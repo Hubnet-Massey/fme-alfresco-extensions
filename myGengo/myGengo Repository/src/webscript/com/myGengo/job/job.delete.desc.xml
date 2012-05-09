@@ -1,0 +1,9 @@
+<webscript>
+   <shortname>Delete myGengo job</shortname>
+   <description>Delete the myGengo job</description>
+   <url>/api/mygengo/site/{site}/{container}/job/{store_type}/{store_id}/{id}</url>
+   <format default="json">argument</format>
+   <authentication>user</authentication>
+   <family>myGengo</family>
+   <transaction allow="readwrite">required</transaction>
+</webscript>

@@ -1,0 +1,9 @@
+<webscript>
+   <shortname>Get myGengo language infos</shortname>
+   <description>Get the myGengo language infos like pairs, unitPrice et.c</description>
+   <url>/api/mygengo/site/{site}/{container}/languages</url>
+   <format default="json">argument</format>
+   <authentication>user</authentication>
+   <family>myGengo</family>
+   <transaction allow="readonly">required</transaction>
+</webscript>

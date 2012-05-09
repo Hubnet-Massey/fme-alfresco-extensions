@@ -1,0 +1,28 @@
+<project name="macros">
+   
+   
+   <macrodef name="generate-javadocs">
+      <attribute name="projectdir" />
+      <attribute name="documenttitle" />
+      <attribute name="windowtitle" />
+      <sequential>
+         <mkdir dir="@{projectdir}/${dir.name.build}/${dir.name.docs}/${dir.name.java}" />
+         <javadoc maxmemory="256m" author="false" version="false" 
+                  sourcepath="@{projectdir}/${dir.name.source}/${dir.name.java}" 
+                  destdir="@{projectdir}/${dir.name.build}/${dir.name.docs}/${dir.name.java}" 
+                  packagenames="${javadoc.packages.include}"
+                  excludepackagenames="${javadoc.packages.exclude}" 
+                  bottom="${javadoc.copyright}"
+                  doctitle="@{documenttitle}"
+                  windowtitle="@{windowtitle}">
+            <classpath>
+				<path refid="classpath.javadoc"/>
+				<path refid="classpath.javadoc.extension"/>
+			</classpath>
+         </javadoc>
+      </sequential>
+   </macrodef>
+
+
+</project>
+

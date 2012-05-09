@@ -1,0 +1,9 @@
+<webscript>
+   <shortname>Get myGengo account info</shortname>
+   <description>Get the myGengo account info</description>
+   <url>/api/mygengo/site/{site}/{container}</url>
+   <format default="json">argument</format>
+   <authentication>user</authentication>
+   <family>myGengo</family>
+   <transaction allow="readonly">required</transaction>
+</webscript>

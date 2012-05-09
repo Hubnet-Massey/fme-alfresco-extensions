@@ -1,0 +1,9 @@
+<webscript>
+   <shortname>Get myGengo jobs</shortname>
+   <description>Get the myGengo jobs</description>
+   <url>/api/mygengo/site/{site}/{container}/jobs?refresh={refresh?}</url>
+   <format default="json">argument</format>
+   <authentication>user</authentication>
+   <family>myGengo</family>
+   <transaction allow="readwrite">required</transaction>
+</webscript>

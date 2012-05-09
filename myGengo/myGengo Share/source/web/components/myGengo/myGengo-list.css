@@ -1,0 +1,192 @@
+.myGengo-list .heading {
+    color: #333333;
+    font-size: 154%;
+    padding: 1em;
+    background: url(images/myGengo-logo.png) no-repeat scroll right center transparent;
+}
+.myGengo-list .paginator{
+   margin: 0;
+   padding: 4px 0;
+   text-align: center;
+   width: 100%;
+}
+.myGengo-list .job-list table{
+   border:1px dashed #D9D9D9;
+   width: 100%;
+}
+
+.myGengo-list .job-list tbody{
+   outline: none;
+}
+.myGengo-list .job-list thead{
+   display: none;
+}
+.myGengo-list .job-list .yui-dt table{
+   border: none;
+}
+.myGengo-list .job-list.yui-dt .yui-dt-data .yui-dt-last td {
+    border-bottom: medium none;
+}
+.myGengo-list .job-list.yui-dt .yui-dt-data td {
+    border-bottom: 1px dashed #D9D9D9;
+    border-right: medium none;
+    vertical-align: top;
+}
+.myGengo-list .job-list{
+    color: #333333;
+}
+.myGengo-list .job-list .detail {
+    clear: left;
+    float: left;
+    line-height: 2.25em;    
+}
+
+.myGengo-list .job-list .detail .comments {   
+    color: white;
+    background: url(images/comments.png) no-repeat;
+    display: inline-block;
+    width: 30px;
+    text-align:center;
+}
+.myGengo-list .job-list .detail .status {   
+    display: inline-block;
+    margin-left: 5px;
+    padding-left: 18px;
+}
+.myGengo-list .job-list .detail .approved {   
+    background: url("images/status/status_approved.png") no-repeat scroll left center transparent;
+}
+.myGengo-list .job-list .detail .revising{   
+    background: url("images/status/status_revising.png") no-repeat scroll left center transparent;
+}
+.myGengo-list .job-list .detail .pending{   
+    background: url("images/status/status_translating.png") no-repeat scroll left center transparent;
+}
+.myGengo-list .job-list .detail .available{   
+    background: url("images/status/status_awaiting.png") no-repeat scroll left center transparent;
+}
+.myGengo-list .job-list .detail .reviewable{   
+    background: url("images/status/status_reviewing.png") no-repeat scroll left center transparent;
+}
+
+.myGengo-list .job-list .detail .status-image {   
+    padding-right: 5px;
+}
+.myGengo-list .job-list .detail .tier-image {
+    vertical-align: middle;
+}
+.myGengo-list .job-list .jobtext {
+    clear: left;
+    float: left;
+    padding: 5px;
+}
+.myGengo-list .job-list .language-image {
+    vertical-align: middle;
+}
+.myGengo-list .job-list .detail em{
+    color: #606060;
+    font-style: normal;
+    font-weight: normal;
+}
+.myGengo-list .job-list .detail span.item{
+    float: left;
+    padding-right: 2em;
+}
+
+/* Actions */
+
+.myGengo-list .action-set div
+{
+   display: block;
+   margin: 0;
+}
+
+.myGengo-list a.action-link,
+.myGengo-list a.simple-link,
+.myGengo-list a.show-more
+{
+   background-position: 4px 1px;
+   background-repeat: no-repeat;
+   border: 1px solid transparent;
+   display: block;
+   min-height: 16px;
+   padding: 2px 0 2px 24px;
+}
+
+.myGengo-list .action-set a:active,
+.myGengo-list .action-set a:hover,
+.myGengo-list .action-set .highlighted
+{
+   background-color: #fff;
+   border: 1px solid;
+   text-decoration: none;
+}
+
+.myGengo-list div.more-actions
+{
+   background-color: #fff;
+   border: 1px solid;
+   clear: left;
+   margin-left: -22px;
+   margin-top: 1px;
+   position: absolute;
+   width: 220px;
+   z-index: 1;
+}
+
+.myGengo-list .more-actions a.action-link,
+.myGengo-list .more-actions a.simple-link
+{
+   border: 1px solid #fff;
+}
+
+.myGengo-list .more-actions a:active,
+.myGengo-list .more-actions a:hover
+{
+   border: 1px solid;
+   color: #fff;
+}
+
+/* Actions: Icons */
+
+.myGengo-list .action-set a
+{
+   background-image: url(../documentlibrary/images/generic-16.png);
+}
+
+.myGengo-list .onActionShowMore a
+{
+   background-image: url(../documentlibrary/images/plus-sign-16.png);
+}
+.myGengo-list .onActionDelete a
+{
+   background-image: url(images/delete-16.png);
+}
+.myGengo-list .onActionCancel a
+{
+   background-image: url(images/cancel-16.png);
+}
+.myGengo-list .onActionComment a
+{
+   background-image: url(images/comment-16.png);
+}
+.myGengo-list .onActionRevise a
+{
+   background-image: url(images/revise-16.png);
+}
+.myGengo-list .onActionView a
+{
+   background-image: url(images/view-16.png);
+}
+.myGengo-list .onActionReject a
+{
+   background-image: url(images/reject-16.png);
+}
+.myGengo-list .onActionApprove a
+{
+   background-image: url(images/approve-16.png);
+}
+.myGengo-list .onActionRefresh a
+{
+   background-image: url(images/refresh-16.png);
+}
