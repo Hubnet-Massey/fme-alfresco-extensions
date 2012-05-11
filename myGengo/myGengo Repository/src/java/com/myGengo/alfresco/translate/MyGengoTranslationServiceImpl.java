@@ -479,7 +479,7 @@ public class MyGengoTranslationServiceImpl implements MyGengoTranslationService 
 	                MyGengoUtils.getTranslationCommentsProvider(jobRefs),
 	                10, 5,
 	                null, LOGGER, 5);
-	        batchProcessor.process(worker, true);
+	        batchProcessor.process(worker, false);
 	        
 	        BatchProcessWorker<MyGengoJobBatchEntry> jobWorker = new MyGengoJobsBatchProcessWorker(this, AuthenticationUtil.getFullyAuthenticatedUser());
 	        BatchProcessor<MyGengoJobBatchEntry> jobPatchProcessor = new BatchProcessor<MyGengoJobBatchEntry>(
@@ -488,7 +488,7 @@ public class MyGengoTranslationServiceImpl implements MyGengoTranslationService 
 	                MyGengoUtils.getTranslationsProvider(myGengoJobs),
 	                5, 1,
 	                null, LOGGER, 1);
-	        jobPatchProcessor.process(jobWorker, true);
+	        jobPatchProcessor.process(jobWorker, false);
 		}finally{
 			try{
         		jobLockService.releaseLock(lock, MyGengoTranslationService.LOCK_QNAME);
