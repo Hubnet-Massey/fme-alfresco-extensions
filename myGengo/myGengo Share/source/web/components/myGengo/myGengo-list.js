@@ -124,6 +124,7 @@ if (typeof MyGengo == "undefined") MyGengo={};
 			 * @type int
 			 */
 			rowsPerPage: 10,
+			
 			/**
 	          * Delay time value for "More Actions" popup, in milliseconds
 	          *
@@ -131,7 +132,7 @@ if (typeof MyGengo == "undefined") MyGengo={};
 	          * @type int
 	          * @default 500
 	          */
-	         actionsPopupTimeout: 500,
+	        actionsPopupTimeout: 500
 			
 		},
 		
@@ -562,9 +563,9 @@ if (typeof MyGengo == "undefined") MyGengo={};
 					fn: function MyGengoJobList_onActionApprove_failure(response)
 					{
 						this.widgets.busyMessage = Alfresco.util.PopupManager.displayMessage(
-								{
-									text: this.msg("message.comment.failure")
-								});
+						{
+							text: this.msg("message.comment.failure")
+						});
 					},
 					scope: this
 				}
@@ -619,9 +620,9 @@ if (typeof MyGengo == "undefined") MyGengo={};
 							fn: function MyGengoJobList_onActionComment_failure(response)
 							{
 								this.widgets.busyMessage = Alfresco.util.PopupManager.displayMessage(
-										{
-											text: this.msg("message.approve.failure")
-										});
+								{
+									text: this.msg("message.approve.failure")
+								});
 							},
 							scope: this
 						}
@@ -729,13 +730,13 @@ if (typeof MyGengo == "undefined") MyGengo={};
 				onFailure:
 				{
 					fn: function MyGengoJobList_onActionReject_failure(response)
-				{
+					{
 						this.widgets.busyMessage = Alfresco.util.PopupManager.displayMessage(
 						{
 							text: this.msg("message.reject.failure")
 						});
-				},
-				scope: this
+					},
+					scope: this
 				}
 			}).show();
 		},
@@ -941,17 +942,17 @@ if (typeof MyGengo == "undefined") MyGengo={};
 					{
 						fn: function MyGengoJobList_onActionCancelConfirm_refreshSuccess(response)
 						{
-										var recordFound = this._findRecordByParameter(item.nodeRef, "nodeRef");
-										if (recordFound !== null)
-										{
-											this.widgets.dataTable.deleteRow(recordFound, item);
-										}
-										
-										// Display success message
-										Alfresco.util.PopupManager.displayMessage(
-												{
-													text: this.msg("message.cancel.success", item.id)
-												});
+							var recordFound = this._findRecordByParameter(item.nodeRef, "nodeRef");
+							if (recordFound !== null)
+							{
+								this.widgets.dataTable.deleteRow(recordFound, item);
+							}
+							
+							// Display success message
+							Alfresco.util.PopupManager.displayMessage(
+							{
+								text: this.msg("message.cancel.success", item.id)
+							});
 						},
 						scope: this
 					},
@@ -959,10 +960,10 @@ if (typeof MyGengo == "undefined") MyGengo={};
 					{
 						fn: function MyGengoJobList_onActionCancelConfirm_refreshFailure(response)
 						{
-								this.widgets.busyMessage = Alfresco.util.PopupManager.displayMessage(
-										{
-											text: this.msg("message.cancel.failure", item.id)
-										});
+							this.widgets.busyMessage = Alfresco.util.PopupManager.displayMessage(
+							{
+								text: this.msg("message.cancel.failure", item.id)
+							});
 						},
 						scope: this
 					}
