@@ -5,7 +5,11 @@ function main()
    var connector = remote.connect("alfresco");
 
    var remoteUrl = "/de/fme/dashlets/gallery-albums";
-
+   
+   if (args.site) {
+	   remoteUrl += "?site=" + args.site;   
+   }
+   
    var result = connector.get(remoteUrl);
    if (result.status != status.STATUS_OK)
    {

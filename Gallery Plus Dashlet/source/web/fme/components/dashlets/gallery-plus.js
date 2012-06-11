@@ -381,7 +381,7 @@ FME.util = {
 			if(this.currentlyLoading)
 				return;
 
-			var galleryImagesUrl = Alfresco.constants.PROXY_URI + "de/fme/dashlets/gallery?thumbName={thumbName}&max={max}&skip={skip}&sort={sort}&sortOrder={sortOrder}&filterPath={filterPath}&filterTags={filterTags}&albumNodeRef={albumNodeRef}";
+			var galleryImagesUrl = Alfresco.constants.PROXY_URI + "de/fme/dashlets/gallery?thumbName={thumbName}&max={max}&skip={skip}&sort={sort}&sortOrder={sortOrder}&filterPath={filterPath}&filterTags={filterTags}&albumNodeRef={albumNodeRef}&site={site}";
 
 			if(selectedAlbum) {
 				// If an album was selected use it for the query
@@ -403,9 +403,10 @@ FME.util = {
 				sort : this.options.sort,
 				sortOrder : this.options.sortOrder,
 				albumNodeRef : this.selectedAlbum,
-				filterPath : this.options.filterPath.substr(0, this.options.filterPath.indexOf("|")),
+				filterPath : this.options.filterPath.split("|")[0],
 				filterTags : this.options.filterTags,
-				thumbName : this.options.thumbName
+				thumbName : this.options.thumbName,
+				site : this.options.siteId
 			});
 
 			this.currentlyLoading = true;
@@ -527,10 +528,11 @@ FME.util = {
 		displayAlbums : function FdGP_displayAlbums() {
 			this.updateTitle();
 			this.currentViewmode = this.constants.VIEWMODE_ALBUMS;
-			var albumsUrl = Alfresco.constants.PROXY_URI + "de/fme/dashlets/gallery-albums?filterPath={filterPath}&filterTags={filterTags}";
+			var albumsUrl = Alfresco.constants.PROXY_URI + "de/fme/dashlets/gallery-albums?filterPath={filterPath}&filterTags={filterTags}&site={site}";
 			albumsUrl = YAHOO.lang.substitute(albumsUrl, {
-				filterPath : this.options.filterPath.substr(0, this.options.filterPath.indexOf("|")),
-				filterTags : this.options.filterTags
+				filterPath : this.options.filterPath.split("|")[0],
+				filterTags : this.options.filterTags,
+				site : this.options.siteId				
 			});
 
 			// Execute the request to retrieve the list of images to display
@@ -645,7 +647,7 @@ FME.util = {
 			if(!this.configDialog) {
 				this.configDialog = new Alfresco.module.SimpleDialog(this.id + "-configDialog").setOptions({
 					width : "50em",
-					templateUrl : Alfresco.constants.URL_SERVICECONTEXT + "modules/dashlet/gallery/config?tag=" + this.options.tag,
+					templateUrl : Alfresco.constants.URL_SERVICECONTEXT + "modules/dashlet/gallery/config?site=" + this.options.siteId,
 					onSuccess : {
 						fn : function DocumentsForTag_onConfigDashlet_callback(response) {
 							var obj = response.json;
@@ -780,12 +782,17 @@ FME.util = {
 		 */		
 		showFullscreenPage  : function FdGP_showFullscreenPage(e) {
 			
-			var fullScreenUrl = Alfresco.constants.URL_CONTEXT + "page/gallery-plus?album={album}&filterPath={filterPath}&filterTags={filterTags}&sort={sort}&sortOrder={sortOrder}&pageSize={pageSize}&maxImages={maxImages}&thumbName={thumbName}";
+			var fullScreenUrl = Alfresco.constants.URL_CONTEXT + "page";
+			if (this.options.siteId) {
+				fullScreenUrl += "/site/" + this.options.siteId;
+			}
+			
+			fullScreenUrl += "/gallery-plus?album={album}&filterPath={filterPath}&filterTags={filterTags}&sort={sort}&sortOrder={sortOrder}&pageSize={pageSize}&maxImages={maxImages}&thumbName={thumbName}";
 			
 			// build the query options for the image request
 			fullScreenUrl = YAHOO.lang.substitute(fullScreenUrl, {
 				album : this.selectedAlbum ? this.selectedAlbum : this.options.singleAlbumNodeRef,
-				filterPath : this.options.filterPath.substr(0, this.options.filterPath.indexOf("|")),
+				filterPath : this.options.filterPath.split("|")[0],
 				filterTags : this.options.filterTags,
 				sort : this.options.sort,
 				sortOrder : this.options.sortOrder,

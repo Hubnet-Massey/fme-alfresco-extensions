@@ -1,7 +1,7 @@
 <webscript>
   <shortname>gallery-plus-albums</shortname>
   <description>Retrieves albums for the Gallery Plus Dashlet</description>
-  <url>/de/fme/dashlets/gallery-albums?filterPath={filterPath?}&amp;filterTags={filterTags?}</url>
+  <url>/de/fme/dashlets/gallery-albums?filterPath={filterPath?}&amp;filterTags={filterTags?}&amp;site={site?}</url>
   <format default="json">extension</format>  
   <authentication>user</authentication>
   <transaction>none</transaction>
