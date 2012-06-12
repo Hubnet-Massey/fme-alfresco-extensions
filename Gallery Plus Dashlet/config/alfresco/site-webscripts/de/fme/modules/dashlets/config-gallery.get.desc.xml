@@ -1,5 +1,5 @@
 <webscript>
   <shortname>gallery-plus-dashlet-configuration</shortname>
   <description>Configuration dialog for Gallery Plus dashlet</description>
-  <url>/modules/dashlet/gallery/config</url>
+  <url>/modules/dashlet/gallery/config?site={site?}</url>
 </webscript>

@@ -70,7 +70,16 @@
 		}
 		else {
 			filter += "+PATH:\"" + args.filterPath.replace(/:/g, "\\:")+"\" ";
-		}
+		};
+	}
+	else {
+		// if no filterPath is set use the current site as a default 
+		if (args.site) {
+			var siteNode = siteService.getSite(args.site).node;
+			if (siteNode) {
+				filter += "+PATH:\""+(siteNode.qnamePath+"//*") +"\"";	
+			}
+		};
 	}
 
 	// DEBUG logger.warn(filter);

@@ -99,7 +99,8 @@ FME.util = {
 			maxImages : 50,
 			componentId : "",
 			detailsUrl : "",
-			background : "white"
+			background : "white",
+			siteId : ""			
 		},
 
 		widgets : {},
@@ -343,7 +344,8 @@ FME.util = {
 				templateUrl : Alfresco.constants.URL_SERVICECONTEXT + "fme/modules/preview-dialog",
 				items : this.currentThumbnails,
 				index : parseInt(index),
-				detailsUrl : this.options.detailsUrl
+				detailsUrl : this.options.detailsUrl,
+				siteId : this.options.siteId				
 			}).show();
 
 			YAHOO.util.Event.stopEvent(e);
@@ -379,8 +381,8 @@ FME.util = {
 			if(this.currentlyLoading)
 				return;
 
-			var galleryImagesUrl = Alfresco.constants.PROXY_URI + "de/fme/dashlets/gallery?thumbName={thumbName}&max={max}&skip={skip}&sort={sort}&sortOrder={sortOrder}&filterPath={filterPath}&filterTags={filterTags}&albumNodeRef={albumNodeRef}";
-
+			var galleryImagesUrl = Alfresco.constants.PROXY_URI + "de/fme/dashlets/gallery?thumbName={thumbName}&max={max}&skip={skip}&sort={sort}&sortOrder={sortOrder}&filterPath={filterPath}&filterTags={filterTags}&albumNodeRef={albumNodeRef}&site={site}";
+			
 			if(selectedAlbum) {
 				// If an album was selected use it for the query
 				Dom.setStyle(this.widgets.backToAlbumsLink, "display", "inline");
@@ -401,9 +403,10 @@ FME.util = {
 				sort : this.options.sort,
 				sortOrder : this.options.sortOrder,
 				albumNodeRef : this.selectedAlbum,
-				filterPath : this.options.filterPath.substr(0, this.options.filterPath.indexOf("|")),
+				filterPath : this.options.filterPath.split("|")[0],
 				filterTags : this.options.filterTags,
-				thumbName : this.options.thumbName
+				thumbName : this.options.thumbName,
+				site : this.options.siteId
 			});
 
 			this.currentlyLoading = true;
@@ -503,7 +506,10 @@ FME.util = {
 				title += " - " + albumTitle;
 			}
 			
-			Dom.get(this.id + "-title-text").innerHTML = title;
+			var titleNode = Dom.get(this.id + "-title-text");
+			if (titleNode) {
+				titleNode.innerHTML = title;
+			}
 		},
 		
 		/**
@@ -523,10 +529,11 @@ FME.util = {
 		displayAlbums : function FdGP_displayAlbums() {
 			this.updateTitle();
 			this.currentViewmode = this.constants.VIEWMODE_ALBUMS;
-			var albumsUrl = Alfresco.constants.PROXY_URI + "de/fme/dashlets/gallery-albums?filterPath={filterPath}&filterTags={filterTags}";
+			var albumsUrl = Alfresco.constants.PROXY_URI + "de/fme/dashlets/gallery-albums?filterPath={filterPath}&filterTags={filterTags}&site={site}";
 			albumsUrl = YAHOO.lang.substitute(albumsUrl, {
-				filterPath : this.options.filterPath.substr(0, this.options.filterPath.indexOf("|")),
-				filterTags : this.options.filterTags
+				filterPath : this.options.filterPath.split("|")[0],
+				filterTags : this.options.filterTags,
+				site : this.options.siteId				
 			});
 
 			// Execute the request to retrieve the list of images to display
@@ -641,7 +648,7 @@ FME.util = {
 			if(!this.configDialog) {
 				this.configDialog = new Alfresco.module.SimpleDialog(this.id + "-configDialog").setOptions({
 					width : "50em",
-					templateUrl : Alfresco.constants.URL_SERVICECONTEXT + "modules/dashlet/gallery/config?tag=" + this.options.tag,
+					templateUrl : Alfresco.constants.URL_SERVICECONTEXT + "modules/dashlet/gallery/config?site=" + this.options.siteId,
 					onSuccess : {
 						fn : function DocumentsForTag_onConfigDashlet_callback(response) {
 							var obj = response.json;

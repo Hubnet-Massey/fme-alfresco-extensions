@@ -42,6 +42,7 @@ function main() {
 		if (obj) {
 			userIsSiteManager = (obj.role == "SiteManager");
 		}
+
 	}
 	else {
 		// user dashboard

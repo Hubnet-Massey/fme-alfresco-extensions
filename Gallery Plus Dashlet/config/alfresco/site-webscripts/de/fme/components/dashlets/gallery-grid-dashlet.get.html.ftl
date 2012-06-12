@@ -20,6 +20,7 @@
 	<#else>
    		"detailsUrl" : "${url.context}/page/document-details?nodeRef=",
    	</#if>
+   		"siteId" : "${page.url.templateArgs.site!""}"
    }).setMessages(${messages});
    new Alfresco.widget.DashletResizer("${idJS}", "${instance.object.id}");
 })();

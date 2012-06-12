@@ -26,6 +26,14 @@
 			filter = "+PATH:\"" + args.filterPath.replace(/:/g, "\\:")+"\" ";
 		}
 	}
+	else {
+		if (args.site) {
+			var siteNode = siteService.getSite(args.site).node;
+			if (siteNode) {
+				filter += "+PATH:\""+(siteNode.qnamePath+"//*") +"\"";	
+			}
+		};		
+	}
 		
 	// DEBUG logger.warn(filter);
 	
