@@ -1,0 +1,20 @@
+<extension>
+	<modules>
+		<module>
+			<id>fme Devtools Menu</id>
+			<components>
+				<component>
+					<scope>global</scope>
+					<region-id>header</region-id>
+					<source-id>global</source-id>
+					<sub-components>
+						<sub-component id="fme-alfresco-devtools">
+							<url>/fme/components/devtools/menu</url>
+						</sub-component>
+					</sub-components>
+				</component>
+			</components>
+		</module>
+	</modules>
+</extension>
+
