@@ -5,7 +5,7 @@
 {
    var galleryPlus = new FME.dashlet.GalleryPlus("${elJS}").setOptions({
    		"componentId": "${instance.object.id}",
-   		"title" : "${title}",
+   		"title" : "${title?html}",
    		"viewmode" : "${viewmode}",
    		"singleAlbumNodeRef" : "${album}",
    		"filterPath" : "${filterPath}",

@@ -4,7 +4,7 @@
 {
    var galleryPlus = new FME.dashlet.GalleryPlus("${idJS}").setOptions({
    		"componentId": "${instance.object.id}",
-   		"title" : "${title}",
+   		"title" : "${title?html}",
    		"viewmode" : "${viewmode!'images'}",
    		"singleAlbumNodeRef" : "${singleAlbumNodeRef!''}",
    		"filterPath" : "${filterPath!''}",
@@ -69,7 +69,7 @@
 <div class="dashlet fme-gallery-dashlet">
 
    <div class="title" id="${el}-title">
-		<span id="${el}-title-text">${title!""}</span>
+		<span id="${el}-title-text">${title!""?html}</span>
    		<div class="title-toolbar">
 	       <a href="#" id="${el}-back-to-albums" class="theme-color-1">${msg("label.backToAlbums")}</a>
    		</div>

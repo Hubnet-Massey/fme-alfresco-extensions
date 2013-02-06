@@ -55,12 +55,12 @@ FME.util = {
 	/**
 	 * YUI Library aliases
 	 */
-	var Dom = YAHOO.util.Dom, Event = YAHOO.util.Event, KeyListener = YAHOO.util.KeyListener;
+	var Dom = YAHOO.util.Dom, Event = YAHOO.util.Event;
 
 	/**
 	 * Alfresco Slingshot aliases
 	 */
-	var $html = Alfresco.util.encodeHTML, $combine = Alfresco.util.combinePaths, $nz = FME.util.nz;
+	var $html = Alfresco.util.encodeHTML, $nz = FME.util.nz;
 
 	/**
 	 * Dashboard GalleryPlus constructor.
@@ -321,15 +321,17 @@ FME.util = {
 		 * Handler for a click on an image. It opens the preview dialog.
 		 */
 		onImageClick : function FdGP_onImageClick(e, args) {
+			var selectedNodeRef;
+			
 			if(!this.widgets.imageView) {
 				this.widgets.imageView = new FME.module.PreviewDialog(this.id);
 			}
 
 			// Fix for IE<9 which doesn't have currentTarget
 			if(e.currentTarget) {
-				var selectedNodeRef = e.currentTarget.href;
+				selectedNodeRef = e.currentTarget.href;
 			} else {
-				var selectedNodeRef = e.srcElement.parentElement.href;
+				selectedNodeRef = e.srcElement.parentElement.href;
 			}
 
 			// Determine the index of the currently clicked image
@@ -654,6 +656,7 @@ FME.util = {
 							if(obj) {
 								this.options = YAHOO.lang.merge(this.options, obj);
 							}
+							this.options.title = Alfresco.util.encodeHTML(obj.title);
 							this.updateTitle();
 							if (this.widgets.scrollArea) {
 								Dom.setStyle(this.widgets.scrollArea, "background-color", this.options.background);
@@ -680,7 +683,7 @@ FME.util = {
 								match : true
 							}, "keyup", this.msg("message.validation.maxImages"));
 							form.setShowSubmitStateDynamically(true, false);
-							Dom.get(this.configDialog.id + "-title").value = this.options.title;
+							Dom.get(this.configDialog.id + "-title").value = Alfresco.util.decodeHTML(this.options.title);
 							Dom.get(this.configDialog.id + "-filterPath").value = this.options.filterPath;
 							Dom.get(this.configDialog.id + "-filterPathView").innerHTML = this.options.filterPath.substr(this.options.filterPath.indexOf("|") + 1);
 							Dom.get(this.configDialog.id + "-filterTags").value = this.options.filterTags;
@@ -697,7 +700,7 @@ FME.util = {
 										listEl.options[i].selected = true;
 									}
 								}
-							}
+							};
 
 							initList.call(this, "-viewmode-list", "-viewmode", this.options.viewmode);
 							initList.call(this, "-singleAlbumNodeRef-list", "-singleAlbumNodeRef", this.options.singleAlbumNodeRef);
@@ -967,7 +970,7 @@ var DASHLET_TITLE_BAR_ACTIONS_OPACITY = 0,
 						{
 							_this._fadeOut(e, _this);
 							customEvent.fire({});
-						}
+						};
 					 })());
                   }
                   else if (currAction.linkOnClick)

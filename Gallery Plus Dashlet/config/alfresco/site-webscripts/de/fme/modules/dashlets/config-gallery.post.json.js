@@ -2,6 +2,8 @@
  * Galery Plus Dashlet configuration component POST method
  */
 
+var rscript = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+
 function main()
 {
    var c = sitedata.getComponent(url.templateArgs.componentId);
@@ -9,15 +11,15 @@ function main()
    var saveValue = function(name, value) {
 	   c.properties[name] = value;
 	   model[name] = value; 
-   }
+   };
 
    var saveValueIgnoreEmpty = function(name, value) {
 	   if (value) {
 		   saveValue(name, value);
 	   }
-   }
+   };
    
-   saveValue("title", String(json.get("title")));
+   saveValue("title", String(json.get("title")).replace(rscript, ""));
    saveValue("filterPath", String(json.get("filterPath")));
    saveValue("filterTags", String(json.get("filterTags")));
    saveValue("sort", String(json.get("sort")));
