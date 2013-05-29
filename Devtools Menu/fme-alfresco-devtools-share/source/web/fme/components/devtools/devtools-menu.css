@@ -5,24 +5,114 @@
 
 .header .yui-menu-button.devtools-menu .first-child {
    background-image: url(devtools16.png);
+   
 }
 
-.header .yuimenu .bd li.refresh-menuitem .yuimenuitemlabel
+.bd li.refresh-menuitem
 {
    background-image: url(refresh16.png);
+   background-position: 15px center;
+   background-repeat: no-repeat;
+   padding-left:15px;
 }
 
-.header .yuimenu .bd li.jsconsole-menuitem .yuimenuitemlabel
+.bd li.refresh-menuitem .yuimenuitemlabel
+{
+	line-height:2;
+}
+
+.bd li.jsconsole-menuitem
+{
+   	background-image: url(../../../components/documentlibrary/actions/open-in-jsconsole-16.png);
+   	background-position: 15px center;
+	background-repeat: no-repeat;
+	padding-left:15px;
+}
+
+.bd li.jsconsole-menuitem .yuimenuitemlabel
+{
+	line-height:2;
+}
+
+
+
+.bd li.explorer-menuitem 
 {
    background-image: url(../../../components/documentlibrary/actions/open-in-jsconsole-16.png);
+   	background-position: 15px center;
+	background-repeat: no-repeat;
+	padding-left:15px;
 }
 
-.header .yuimenu .bd li.debugger-menuitem .yuimenuitemlabel
+
+.bd li.explorer-menuitem .yuimenuitemlabel
+{
+	line-height:2;
+}
+
+
+
+.bd li.debugger-menuitem
 {
    background-image: url(debugger16.png);
+   background-position: 15px center;
+	background-repeat: no-repeat;
+	padding-left:15px;
 }
 
-.header .yuimenu .bd li.surfbug-menuitem .yuimenuitemlabel
+.bd li.debugger-menuitem .yuimenuitemlabel
+{
+	line-height:2;
+}
+
+.bd li.surfbug-menuitem
 {
    background-image: url(surfbug16.png);
+   background-position: 15px center;
+	background-repeat: no-repeat;
+	padding-left:15px;
 }
+
+.bd li.surfbug-menuitem .yuimenuitemlabel
+{
+	line-height:2;
+}
+
+.bd li.activiti-menuitem 
+{
+   background-image: url(activiti.logo.gradients.16x16.png);
+   background-position: 15px center;
+	background-repeat: no-repeat;
+	padding-left:15px;
+}
+
+.bd li.activiti-menuitem .yuimenuitemlabel
+{
+	line-height:2;
+}
+
+.bd li.solr-menuitem
+{
+   background-image: url(solr.gif);
+   background-position: 15px center;
+	background-repeat: no-repeat;
+	padding-left:15px;
+}
+
+.bd li.solr-menuitem .yuimenuitemlabel
+{
+	line-height:2;
+}
+
+.bd li.general-menuitem
+{
+	padding-left:15px;
+}
+
+.bd li.general-menuitem .yuimenuitemlabel
+{
+	line-height:2;
+}
+
+
+

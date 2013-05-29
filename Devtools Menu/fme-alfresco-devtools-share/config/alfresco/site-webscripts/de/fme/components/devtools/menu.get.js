@@ -11,5 +11,11 @@ if (!model.explorerBaseUrl) {
 	model.explorerBaseUrl = "http://localhost:8080/alfresco";
 }
 if (!model.solrAdminUrl) {
-    model.solrAdminUrl = "https://localhost:8443/solr/alfresco/admin/";
+    model.solrAdminUrl = "https://localhost:8443/solr/alfresco/admin";
 }
+
+if (!model.solrUrl) {
+    model.solrUrl = "https://localhost:8443/solr/";
+}
+
+

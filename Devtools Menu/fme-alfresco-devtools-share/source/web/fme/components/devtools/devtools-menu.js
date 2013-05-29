@@ -26,37 +26,77 @@
       onReady: function DevTools_onReady()
       {
           var container = YAHOO.util.Selector.query(".header .app-items")[0];
-          var menu = ([ 
-          	      { text : "Refresh Repository Webscripts", classname: "refresh-menuitem", onclick : { fn: this.onRefreshRepoWebscripts, scope: this } },
-          	      { text : "Refresh Share Webscripts", classname: "refresh-menuitem", onclick : { fn: this.onRefreshShareWebscripts, scope: this } },
-          	      { text : "Refresh Share All (WS, Templates, Config)", classname: "refresh-menuitem", onclick : { fn: this.onRefreshAllShare, scope: this } },
-          	      { text : "Toggle Surfbug", classname: "surfbug-menuitem", onclick : { fn: this.onSurfBug, scope: this } },
-          	      { text : "Toggle Repository Debugger", classname: "debugger-menuitem", onclick : { fn: this.onRepoDebugger, scope: this } },
-          	      { text : "Toggle Share Debugger", classname: "debugger-menuitem", onclick : { fn: this.onShareDebugger, scope: this } },
-          	      { text : "Share Module Deployment", url : Alfresco.constants.URL_PAGECONTEXT + "modules/deploy", target:"_blank" },
-          	      { text : "Javascript Console", classname: "jsconsole-menuitem", url : Alfresco.constants.URL_PAGECONTEXT + "console/admin-console/javascript-console" },
-          	      { text : "Node Browser", classname: "jsconsole-menuitem", url : Alfresco.constants.URL_PAGECONTEXT + "console/admin-console/node-browser" },
+          var menuItems = ([[ 
+              	      { text : "Refresh Repository Webscripts", classname: "refresh-menuitem", onclick : { fn: this.onRefreshRepoWebscripts, scope: this } },
+              	      { text : "Refresh Share Webscripts", classname: "refresh-menuitem", onclick : { fn: this.onRefreshShareWebscripts, scope: this } },
+              	      { text : "Refresh Share All (WS, Templates, Config)", classname: "refresh-menuitem", onclick : { fn: this.onRefreshAllShare, scope: this } },
+              	      { text : "Navigate Repository Webscripts", classname: "explorer-menuitem", url : this.options.explorerBaseUrl+ "/service/index", target:"_blank"},
+              	      { text : "Navigate Share Webscripts", classname: "explorer-menuitem", url : Alfresco.constants.URL_SERVICECONTEXT+ "index", target:"_blank"}
+          	      ],[
+              	      { text : "Toggle Surfbug", classname: "surfbug-menuitem", onclick : { fn: this.onSurfBug, scope: this } },
+              	      { text : "Toggle Repository Debugger", classname: "debugger-menuitem", onclick : { fn: this.onRepoDebugger, scope: this } },
+              	      { text : "Toggle Share Debugger", classname: "debugger-menuitem", onclick : { fn: this.onShareDebugger, scope: this } },
+              	      { text : "Share Module Deployment", classname: "general-menuitem", url : Alfresco.constants.URL_PAGECONTEXT + "modules/deploy", target:"_blank" },
+              	      { text : "Javascript Console", classname: "jsconsole-menuitem", url : Alfresco.constants.URL_PAGECONTEXT + "console/admin-console/javascript-console"},
+              	      { text : "Share Node Browser", classname: "jsconsole-menuitem", url : Alfresco.constants.URL_PAGECONTEXT + "console/admin-console/node-browser"},
+              	      { text : "Repository Node Browser", classname: "jsconsole-menuitem", url : this.options.explorerBaseUrl + "/faces/jsp/admin/node-browser.jsp", target:"_blank"}
+          	      ],[
           	      
-          	      // TODO: get correct URL, maybe open in iframe
-          	      { text : "Workflow Console", url : this.options.explorerBaseUrl + "/faces/jsp/admin/workflow-console.jsp", target:"_blank" },
-
-          	      // TODO: check if SOLR is active, get correct URL, maybe open in iframe        	      
-          	      { text : "Solr Admin Console", url : this.options.solrAdminUrl, target:"_blank" },
-          	      
-          	      // TODO: check if lucene is active, get correct URL, maybe open in iframe        	      
-          	      { text : "Lucene Index Check", url : this.options.explorerBaseUrl + "/service/enterprise/admin/indexcheck", target:"_blank" }
-          	       
-          	      // TODO: Open Explorer (in IFrame)
-          	      // TODO: Toggle Minification. How to change the config dynamically?
-          	 ]);
+              	      { text : "Activiti Workflow Console", classname:"activiti-menuitem", url : Alfresco.constants.URL_CONTEXT + "proxy/activiti-admin", target:"_blank" },          	      
+              	      { text : "Repository Workflow Console",  classname: "general-menuitem", url : this.options.explorerBaseUrl + "/faces/jsp/admin/workflow-console.jsp", target:"_blank" },
+              	      { text : "Repository Admin Console", classname: "general-menuitem", url : this.options.explorerBaseUrl + "/faces/jsp/admin/repoadmin-console.jsp", target:"_blank" }
+          	      ],[
+          	            	      
+              	      { text : "Solr Admin Console", classname: "solr-menuitem", url : this.options.solrAdminUrl, target:"_blank" },
+              	      {	text : "Solr Queries",  classname: "general-menuitem",
+              	  	                submenu: {  
+              	  	                            id: "solr_queries",  
+              	  	                            itemdata: [ 
+              	  	                                { text: "Summary Report", url: this.options.solrUrl + "cores?action=SUMMARY&wt=xml", target:"_blank", classname: "general-menuitem"}, 
+              	  	                                { text: "Overall Status Report", url: this.options.solrUrl + "cores?action=REPORT&wt=xml", target:"_blank", classname: "general-menuitem"}, 
+              	  	                                { text: "Index Status", url: this.options.solrUrl+"cores?action=STATUS&wt=xml", target:"_blank", classname: "general-menuitem"}, 
+              	  	                                { text: "Cache Check", url: this.options.solrUrl+"cores?action=CHECK", target:"_blank", classname: "general-menuitem"}, 
+              	  	                                { text: "General fix", url: this.options.solrUrl+"cores?action=FIX", target:"_blank", classname: "general-menuitem"}, 
+              	  	                                { text: "Try to reindex any failed node", url: this.options.solrUrl+"cores?action=RETRY", target:"_blank", classname: "general-menuitem"}, 
+              	  	                                { text: "Show Log4j setting", url: this.options.solrUrl+"cores?action=LOG4J", target:"_blank", classname: "general-menuitem"} 
+              	  	                            ]  
+              	  	                        } 
+              	      },
+              	      { text : "Lucene Index Check", url : this.options.explorerBaseUrl + "/service/enterprise/admin/indexcheck", target:"_blank", classname: "general-menuitem"}
+              	      ],[
+          	      { text : "Useful repo webscripts", classname: "general-menuitem", 
+          	    	  	submenu: {  
+          	    	  			id: "documentation_links",  
+          	    	  			itemdata: [ 
+          	    	  			           { text: "mimetype descriptions", url: this.options.explorerBaseUrl+"/service/api/mimetypes/descriptions", target:"_blank", classname: "general-menuitem"},
+          	    	  			           { text: "Registered mimetypes with transformation", url: this.options.explorerBaseUrl+"service/mimetypes", target:"_blank", classname: "general-menuitem"},
+          	    	  			           { text: "Dictionary (all types and aspects as json)", url: this.options.explorerBaseUrl+"/service/api/dictionary", target:"_blank", classname: "general-menuitem"}
+          	    	  		    ]  
+          	    	  	} 
+          	       },
+          	       { text : "Documentation Links",  classname: "general-menuitem",
+                       submenu: {  
+                               id: "documentation_links",  
+                               itemdata: [ 
+                                          { text: "Alfresco and SOLR", url: "http://wiki.alfresco.com/wiki/Alfresco_And_SOLR", target:"_blank", classname: "general-menuitem"}
+                               ]  
+                       } 
+          	       }
+          	 ]]);
+          
+          var devtoolsMenu= new YAHOO.widget.Menu("devtoolsMenu", { autosubmenudisplay:true }); 
+          devtoolsMenu.addItems(menuItems);
+          devtoolsMenu.render(YAHOO.util.Dom.get(this.id));
+//          devtoolsMenu.render(container);
+          
           
           this.widgets.devtoolsButton = new YAHOO.widget.Button(
                    { id: container.id+"-devtools",
                      type: "menu",
-                      label: "Devtools",
-                      menu: menu,
-                      lazyloadmenu: true, 
-                      container: container.id
+                     label: "Devtools",
+                     menu: devtoolsMenu,
+                     lazyloadmenu: true, 
+                     container: container.id
                    });      	  
           this.widgets.devtoolsButton.addClass("devtools-menu");
       },

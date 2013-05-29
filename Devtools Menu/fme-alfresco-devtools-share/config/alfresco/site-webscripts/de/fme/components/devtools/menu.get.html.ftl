@@ -3,7 +3,9 @@
 <script type="text/javascript">//<![CDATA[
    new Alfresco.module.DevTools("${el}").setOptions({
      solrAdminUrl: "${solrAdminUrl}",
-     explorerBaseUrl: "${explorerBaseUrl}"
+     solrUrl: "${solrUrl}",
+     explorerBaseUrl: "${explorerBaseUrl}",
+     sessionTicket: "${sessionTicket}"
    }).setMessages(${messages});
 //]]></script>
 </#if> 
