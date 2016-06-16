@@ -69,7 +69,7 @@
 			query : "+@cm\\:content.mimetype:image* +TYPE:cm\\:content -ASPECT:rn\\:rendition " + 
 			        "+PARENT:\"" + albumNodeRef.replace(/:/g, "\\:")+"\" ",
 			sort : [{
-				column: "@cm\\:modified",
+				column: "@cm:modified",
 				ascending: false
 			}],
 			page: {
