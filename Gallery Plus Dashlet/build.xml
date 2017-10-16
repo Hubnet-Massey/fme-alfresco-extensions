@@ -44,7 +44,7 @@
 	<property name="build.local.classes.dir" value="build/classes" />
 	<property name="build.lib.dir" value="shared/lib" />
 	<property name="yuicompress.warn" value="false" />
-	<property name="javac.debug" value="off" />
+	<property name="javac.debug" value="on" />
 	<!-- Tomcat properties to reload web scripts or the manager webapp -->
 	<property name="tomcat.url" value="http://localhost:8080" />
 	<property name="tomcat.repo.url" value="${tomcat.url}" />
@@ -75,6 +75,7 @@
 	<property name="build.zip.dir" value="${build.dir}/war" />
 	<property name="build.amp.dir" value="${build.dir}/amp" />
 	<property name="dist.dir" value="${build.dir}/dist" />
+	<property name="alfresco.war" value="${basedir}/alfresco"/>
 	<property name="amp.file.properties" value="module.properties" />
 	<property name="amp.file.mappings" value="file-mapping.properties" />
 
@@ -112,6 +113,7 @@
 	<path id="compile.classpath">
 		<fileset dir="${alfresco.war}">
 			<include name="alfresco/WEB-INF/lib/*.jar"/>
+			<include name="WEB-INF/lib/*.jar"/>
 		</fileset>
 	</path>
 

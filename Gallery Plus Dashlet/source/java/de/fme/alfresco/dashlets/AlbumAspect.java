@@ -18,18 +18,29 @@
  */
 package de.fme.alfresco.dashlets;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.alfresco.model.ContentModel;
+import org.alfresco.repo.domain.permissions.Permission;
 import org.alfresco.repo.node.NodeServicePolicies;
 import org.alfresco.repo.policy.JavaBehaviour;
 import org.alfresco.repo.policy.PolicyComponent;
+import org.alfresco.repo.security.permissions.PermissionReference;
+import org.alfresco.repo.security.permissions.impl.PermissionServiceImpl;
 import org.alfresco.service.cmr.action.Action;
 import org.alfresco.service.cmr.action.ActionService;
 import org.alfresco.service.cmr.repository.ChildAssociationRef;
 import org.alfresco.service.cmr.repository.NodeRef;
+import org.alfresco.service.cmr.repository.NodeRef.Status;
 import org.alfresco.service.cmr.repository.NodeService;
+import org.alfresco.service.cmr.repository.Path;
 import org.alfresco.service.cmr.thumbnail.ThumbnailService;
+import org.alfresco.service.cmr.security.PermissionService;
+import org.alfresco.service.cmr.security.AccessPermission;
+import org.alfresco.service.cmr.security.AccessStatus;
+import org.alfresco.service.cmr.security.AuthenticationService;
 import org.alfresco.service.namespace.QName;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -41,8 +52,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author Florian Maul (fme AG).
  */
-public class AlbumAspect implements NodeServicePolicies.OnCreateNodePolicy,
-		NodeServicePolicies.OnAddAspectPolicy {
+public class AlbumAspect implements NodeServicePolicies.OnCreateNodePolicy, NodeServicePolicies.OnAddAspectPolicy {
 
 	private static Log logger = LogFactory.getLog(AlbumAspect.class);
 
@@ -55,7 +65,9 @@ public class AlbumAspect implements NodeServicePolicies.OnCreateNodePolicy,
 	private ActionService actionService;
 
 	private List<String> thumbnailNames;
-
+	
+	private PermissionService permissionService;
+	
 	public void setNodeService(NodeService nodeService) {
 		this.nodeService = nodeService;
 	}
@@ -76,19 +88,19 @@ public class AlbumAspect implements NodeServicePolicies.OnCreateNodePolicy,
 		this.thumbnailNames = thumbnailNames;
 	}
 
+	public void setPermissionService(PermissionService permissionService) {
+		this.permissionService = permissionService;
+	}
+
 	public void init() {
 
 		logger.debug("Adding ClassBehaviour OnAddAspectPolicy for aspect galp:album");
-		policyComponent.bindClassBehaviour(
-				NodeServicePolicies.OnAddAspectPolicy.QNAME,
-				GalleryPlusModel.ASPECT_ALBUM, new JavaBehaviour(this,
-						"onAddAspect"));
+		policyComponent.bindClassBehaviour(NodeServicePolicies.OnAddAspectPolicy.QNAME, GalleryPlusModel.ASPECT_ALBUM,
+				new JavaBehaviour(this, "onAddAspect"));
 
 		logger.debug("Adding ClassBehaviour OnCreateNode for aspect galp:album");
-		policyComponent.bindClassBehaviour(
-				NodeServicePolicies.OnCreateNodePolicy.QNAME,
-				ContentModel.TYPE_CONTENT, new JavaBehaviour(this,
-						"onCreateNode"));
+		policyComponent.bindClassBehaviour(NodeServicePolicies.OnCreateNodePolicy.QNAME, ContentModel.TYPE_CONTENT,
+				new JavaBehaviour(this, "onCreateNode"));
 	}
 
 	@Override
@@ -97,14 +109,13 @@ public class AlbumAspect implements NodeServicePolicies.OnCreateNodePolicy,
 			logger.debug("onAddAspect called for node " + nodeRef);
 		}
 
-		List<ChildAssociationRef> children = nodeService
-				.getChildAssocs(nodeRef);
+		List<ChildAssociationRef> children = nodeService.getChildAssocs(nodeRef);
 		for (ChildAssociationRef childAssociationRef : children) {
 			NodeRef child = childAssociationRef.getChildRef();
 
 			for (String thumbnailName : thumbnailNames) {
-				final NodeRef thumb = thumbnailService.getThumbnailByName(
-						child, ContentModel.PROP_CONTENT, thumbnailName);
+				final NodeRef thumb = thumbnailService.getThumbnailByName(child, ContentModel.PROP_CONTENT,
+						thumbnailName);
 
 				if (thumb == null) {
 					createThumbnail(child, thumbnailName);
@@ -115,23 +126,38 @@ public class AlbumAspect implements NodeServicePolicies.OnCreateNodePolicy,
 
 	private void createThumbnail(NodeRef nodeRef, String thumbnailName) {
 		if (logger.isDebugEnabled()) {
-			logger.debug("Running action to create thumbnail for node "
-					+ nodeRef);
+			logger.debug("Running action to create thumbnail for node " + nodeRef);
 		}
-		Action dimensionAction = actionService
-				.createAction(ThumbnailDimensionActionExecutor.NAME);
-		dimensionAction.setParameterValue(
-				ThumbnailDimensionActionExecutor.PARAM_THUMBNAIL_NAME,
-				thumbnailName);
+		Action dimensionAction = actionService.createAction(ThumbnailDimensionActionExecutor.NAME);
+		dimensionAction.setParameterValue(ThumbnailDimensionActionExecutor.PARAM_THUMBNAIL_NAME, thumbnailName);
 		actionService.executeAction(dimensionAction, nodeRef, false, true);
 	}
 
 	@Override
 	public void onCreateNode(ChildAssociationRef childAssocRef) {
+
 		NodeRef parentNode = childAssocRef.getParentRef();
-		if (nodeService.hasAspect(parentNode, GalleryPlusModel.ASPECT_ALBUM)) {
-			for (String thumbnailName : thumbnailNames) {
-				createThumbnail(childAssocRef.getChildRef(), thumbnailName);
+		
+		if (logger.isDebugEnabled()) {
+		    logger.debug("parentNode:" + parentNode);
+		}
+		if (parentNode != null && nodeService.exists(parentNode)) {
+			if (logger.isDebugEnabled()) {
+	            logger.debug("parentNode exists");
+			}
+			if (permissionService.hasPermission(parentNode, PermissionService.READ_PROPERTIES) == AccessStatus.ALLOWED) {
+				if (logger.isDebugEnabled()) {
+		            logger.debug("READ PROPERTIES is ALLOWED for parentNode");
+			}
+			
+			if (permissionService.hasPermission(parentNode, PermissionService.READ_PROPERTIES) == AccessStatus.ALLOWED &&
+					permissionService.hasPermission(parentNode, PermissionService.ADD_CHILDREN) == AccessStatus.ALLOWED) {
+				if (nodeService.hasAspect(parentNode, GalleryPlusModel.ASPECT_ALBUM)) {
+					for (String thumbnailName : thumbnailNames) {
+						createThumbnail(childAssocRef.getChildRef(), thumbnailName);
+					}
+				}
+			}
 			}
 		}
 	}

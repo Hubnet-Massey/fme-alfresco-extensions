@@ -131,6 +131,7 @@
         		<value>galpThumb200</value>
         	</list>
     	</property>
+    	<property name="permissionService" ref="permissionService"/>
     </bean>
     	
 </beans>
