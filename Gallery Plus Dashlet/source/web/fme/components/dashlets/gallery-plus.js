@@ -750,13 +750,14 @@ FME.util = {
 				this.widgets.filterPathDialog = new Alfresco.module.DoclibGlobalFolder(this.id + "-selectFilterPath");
 
 				var allowedViewModes = [Alfresco.module.DoclibGlobalFolder.VIEW_MODE_REPOSITORY,
-				//Alfresco.module.DoclibGlobalFolder.VIEW_MODE_SITE,
+				Alfresco.module.DoclibGlobalFolder.VIEW_MODE_SHARED,
+				Alfresco.module.DoclibGlobalFolder.VIEW_MODE_SITE,
 				Alfresco.module.DoclibGlobalFolder.VIEW_MODE_USERHOME];
 
 				this.widgets.filterPathDialog.setOptions({
 					allowedViewModes : allowedViewModes,
 					siteId : this.options.siteId,
-					containerId : this.options.containerId,
+					containerId : typeof(this.options.containerId) != 'undefined' ? this.options.containerId : this.widgets.filterPathDialog.options.containerId,
 					title : "Select filter path", //this.msg("title.destinationDialog"),
 					nodeRef : "alfresco://company/home"
 				});
