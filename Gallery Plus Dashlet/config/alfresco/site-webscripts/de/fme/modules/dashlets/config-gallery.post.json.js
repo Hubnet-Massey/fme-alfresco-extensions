@@ -20,7 +20,7 @@ function main()
    };
    
    saveValue("title", String(json.get("title")).replace(rscript, ""));
-   saveValue("filterPath", String(json.get("filterPath")));
+   //saveValue("filterPath", String(json.get("filterPath")));
    saveValue("filterTags", String(json.get("filterTags")));
    saveValue("sort", String(json.get("sort")));
    saveValue("sortOrder", String(json.get("sortOrder")));
