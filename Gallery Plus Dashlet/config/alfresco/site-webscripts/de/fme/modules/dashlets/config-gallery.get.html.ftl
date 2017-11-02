@@ -45,7 +45,7 @@
             </div>
          </div>	
 
-         <div class="yui-gd">
+         <#-- <div class="yui-gd">
             <div class="yui-u first"><label for="${el}-filterPath">${msg("label.filterPath")}:</label></div>
             <div class="yui-u">
             	<input id="${el}-filterPath" type="hidden" name="filterPath" value=""/>
@@ -53,7 +53,7 @@
             	<button id="${el}-selectFilterPath-button">${msg("label.selectFilterPath")}</button>
             	<button id="${el}-clearFilterPath-button">${msg("label.clearFilterPath")}</button>
             </div>
-         </div>
+         </div> -->
 
          <div class="yui-gd">
             <div class="yui-u first"><label for="${el}-filterTags">${msg("label.filterTags")}:</label></div>

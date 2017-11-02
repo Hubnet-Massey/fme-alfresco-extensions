@@ -684,14 +684,13 @@ FME.util = {
 							}, "keyup", this.msg("message.validation.maxImages"));
 							form.setShowSubmitStateDynamically(true, false);
 							Dom.get(this.configDialog.id + "-title").value = Alfresco.util.decodeHTML(this.options.title);
-							Dom.get(this.configDialog.id + "-filterPath").value = this.options.filterPath;
-							Dom.get(this.configDialog.id + "-filterPathView").innerHTML = this.options.filterPath.substr(this.options.filterPath.indexOf("|") + 1);
+							//Dom.get(this.configDialog.id + "-filterPath").value = this.options.filterPath;
+							//Dom.get(this.configDialog.id + "-filterPathView").innerHTML = this.options.filterPath.substr(this.options.filterPath.indexOf("|") + 1);
 							Dom.get(this.configDialog.id + "-filterTags").value = this.options.filterTags;
 							Dom.get(this.configDialog.id + "-sort").value = this.options.sort;
 							Dom.get(this.configDialog.id + "-pageSize").value = this.options.pageSize;
 							Dom.get(this.configDialog.id + "-maxImages").value = this.options.maxImages;
 							Dom.get(this.configDialog.id + "-background").value = this.options.background;
-
 							var initList = function(listId, fieldId, selectedValue) {
 								Dom.get(this.configDialog.id + fieldId).value = selectedValue;
 								var listEl = Dom.get(this.configDialog.id + listId);
@@ -706,11 +705,10 @@ FME.util = {
 							initList.call(this, "-singleAlbumNodeRef-list", "-singleAlbumNodeRef", this.options.singleAlbumNodeRef);
 							initList.call(this, "-thumbName-list", "-thumbName", this.options.thumbName);
 							initList.call(this, "-sortOrder-list", "-sortOrder", this.options.sortOrder);
-
-							this.configDialog.widgets.filterPathView = Dom.get(this.configDialog.id + "-filterPathView");
-							this.configDialog.widgets.filterPathField = Dom.get(this.configDialog.id + "-filterPath");
-							this.configDialog.widgets.selectFilterPathButton = Alfresco.util.createYUIButton(this.configDialog, "selectFilterPath-button", this.onSelectFilterPath);
-							this.configDialog.widgets.clearFilterPathButton = Alfresco.util.createYUIButton(this.configDialog, "clearFilterPath-button", this.onClearFilterPath);
+							//this.configDialog.widgets.filterPathView = Dom.get(this.configDialog.id + "-filterPathView");
+							//this.configDialog.widgets.filterPathField = Dom.get(this.configDialog.id + "-filterPath");
+							//this.configDialog.widgets.selectFilterPathButton = Alfresco.util.createYUIButton(this.configDialog, "selectFilterPath-button", this.onSelectFilterPath);
+							//this.configDialog.widgets.clearFilterPathButton = Alfresco.util.createYUIButton(this.configDialog, "clearFilterPath-button", this.onClearFilterPath);
 						},
 						scope : this
 					}
@@ -915,6 +913,7 @@ var DASHLET_TITLE_BAR_ACTIONS_OPACITY = 0,
        */
       onReady: function DashletTitleBarActions_onReady()
       {
+	     console.log(this);
          this.dashlet = Selector.query("div.dashlet", Dom.get(this.id), true);
          this.dashletTitle = Selector.query("div.title", this.dashlet, true);
          this.dashletBody = Selector.query("div.body", this.dashlet, true);
