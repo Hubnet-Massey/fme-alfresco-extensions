@@ -36,7 +36,7 @@
             <div class="yui-u first"><label for="${el}-singleAlbumNodeRef">${msg("label.singleAlbumNodeRef")}:</label></div>
             <div class="yui-u">
             	<input id="${el}-singleAlbumNodeRef" type="hidden" name="singleAlbumNodeRef" value=""/>
-            	<select id="${el}-singleAlbumNodeRef-list" onChange="document.getElementById('${el}-singleAlbumNodeRef').value = this.options[this.selectedIndex].value;" title="Display images in a specific album when the View Mode is 'All Images'">
+            	<select id="${el}-singleAlbumNodeRef-list" onChange="document.getElementById('${el}-singleAlbumNodeRef').value = this.options[this.selectedIndex].value;" title="To display images in a specific album when the View Mode is set to 'All Images'">
             		<option value="all">${msg("label.album.all")}</option>
             		<#list albums as album>
             		<option value="${album.nodeRef}">${album.name}</option>
