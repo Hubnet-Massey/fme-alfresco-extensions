@@ -913,7 +913,6 @@ var DASHLET_TITLE_BAR_ACTIONS_OPACITY = 0,
        */
       onReady: function DashletTitleBarActions_onReady()
       {
-	     console.log(this);
          this.dashlet = Selector.query("div.dashlet", Dom.get(this.id), true);
          this.dashletTitle = Selector.query("div.title", this.dashlet, true);
          this.dashletBody = Selector.query("div.body", this.dashlet, true);
