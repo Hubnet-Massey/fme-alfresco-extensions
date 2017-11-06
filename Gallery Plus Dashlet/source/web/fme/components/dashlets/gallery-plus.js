@@ -700,11 +700,19 @@ FME.util = {
 									}
 								}
 							};
-
+							
 							initList.call(this, "-viewmode-list", "-viewmode", this.options.viewmode);
 							initList.call(this, "-singleAlbumNodeRef-list", "-singleAlbumNodeRef", this.options.singleAlbumNodeRef);
 							initList.call(this, "-thumbName-list", "-thumbName", this.options.thumbName);
 							initList.call(this, "-sortOrder-list", "-sortOrder", this.options.sortOrder);
+						    
+							// show and hide 'Filter by album' block depend on the viewmode
+							if(this.currentViewmode == "images"){
+								Dom.setStyle(Dom.get('single-album-ref'), 'display', 'block');
+							}
+							else if(this.currentViewmode =="albums"){
+								Dom.setStyle(Dom.get('single-album-ref'), 'display', 'none');								
+							}
 							//this.configDialog.widgets.filterPathView = Dom.get(this.configDialog.id + "-filterPathView");
 							//this.configDialog.widgets.filterPathField = Dom.get(this.configDialog.id + "-filterPath");
 							//this.configDialog.widgets.selectFilterPathButton = Alfresco.util.createYUIButton(this.configDialog, "selectFilterPath-button", this.onSelectFilterPath);
@@ -714,7 +722,6 @@ FME.util = {
 					}
 				});
 			}
-
 			// augment configDialog to support mandatoryControlValueUpdated
 			// bubble event fired by dashlet-configure-object-finder
 			YAHOO.lang.augmentObject(this.configDialog, {

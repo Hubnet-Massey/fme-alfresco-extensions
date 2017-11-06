@@ -14,7 +14,7 @@
             <div class="yui-u first"><label for="${el}-viewmode">${msg("label.viewmode")}:</label></div>
             <div class="yui-u">
             	<input id="${el}-viewmode" name="viewmode" type="hidden" value=""/>
-            	<select class="select-view-mode" id="${el}-viewmode-list" onChange="document.getElementById('${el}-viewmode').value = this.options[this.selectedIndex].value;">
+            	<select id="${el}-viewmode-list" onChange="document.getElementById('${el}-viewmode').value = this.options[this.selectedIndex].value; if(this.options[this.selectedIndex].value == 'images'){document.getElementById('single-album-ref').style.display = 'block';} else if(this.options[this.selectedIndex].value == 'albums'){document.getElementById('single-album-ref').style.display = 'none';}">
             		<option value="images" selected="selected">${msg("label.viewmode.images")}</option>
             		<option value="albums">${msg("label.viewmode.albums")}</option>
 	           	</select>
@@ -32,11 +32,11 @@
             </div>
          </div>
 
-         <div class="yui-gd select-single-a">
+         <div class="yui-gd" id="single-album-ref">
             <div class="yui-u first"><label for="${el}-singleAlbumNodeRef">${msg("label.singleAlbumNodeRef")}:</label></div>
             <div class="yui-u">
             	<input id="${el}-singleAlbumNodeRef" type="hidden" name="singleAlbumNodeRef" value=""/>
-            	<select id="${el}-singleAlbumNodeRef-list" onChange="document.getElementById('${el}-singleAlbumNodeRef').value = this.options[this.selectedIndex].value;" title="To display images in a specific album when the View Mode is set to 'All Images'">
+            	<select id="${el}-singleAlbumNodeRef-list" onChange="document.getElementById('${el}-singleAlbumNodeRef').value = this.options[this.selectedIndex].value;">
             		<option value="all">${msg("label.album.all")}</option>
             		<#list albums as album>
             		<option value="${album.nodeRef}">${album.name}</option>
@@ -44,12 +44,6 @@
 	           	</select>
             </div>
          </div>	
-         <script>
-             var selectedMode = document.getElementsByClassName('select-view-mode').value;
-             if(selectedMode == "albums"){
-                 document.getElementById('${el}-singleAlbumNodeRefBlock').style.display = 'none';
-             }
-         </script>
          <#-- <div class="yui-gd">
             <div class="yui-u first"><label for="${el}-filterPath">${msg("label.filterPath")}:</label></div>
             <div class="yui-u">
