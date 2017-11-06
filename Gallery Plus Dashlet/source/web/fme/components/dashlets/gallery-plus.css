@@ -214,7 +214,7 @@
     height: 0;
     border:6px solid transparent;
     border-bottom-color:#1E2021;
-    right:10px;
+    left:   0;
     top:-12px;
 }
 
