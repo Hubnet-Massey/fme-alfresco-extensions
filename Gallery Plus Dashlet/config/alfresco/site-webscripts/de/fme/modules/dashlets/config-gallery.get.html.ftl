@@ -14,10 +14,13 @@
             <div class="yui-u first"><label for="${el}-viewmode">${msg("label.viewmode")}:</label></div>
             <div class="yui-u">
             	<input id="${el}-viewmode" name="viewmode" type="hidden" value=""/>
-            	<select id="${el}-viewmode-list" onChange="document.getElementById('${el}-viewmode').value = this.options[this.selectedIndex].value; if(this.options[this.selectedIndex].value == 'images'){document.getElementById('single-album-ref').style.display = 'block';} else if(this.options[this.selectedIndex].value == 'albums'){document.getElementById('single-album-ref').style.display = 'none';}">
+            	<select class="inline-display" id="${el}-viewmode-list" onChange="document.getElementById('${el}-viewmode').value = this.options[this.selectedIndex].value; if(this.options[this.selectedIndex].value == 'images'){document.getElementById('single-album-ref').style.display = 'block';} else if(this.options[this.selectedIndex].value == 'albums'){document.getElementById('single-album-ref').style.display = 'none';}">
             		<option value="images" selected="selected">${msg("label.viewmode.images")}</option>
             		<option value="albums">${msg("label.viewmode.albums")}</option>
 	           	</select>
+	            <div class="dashlet-plus-help-tip">
+                    <div><h3>${msg("label.viewmode.images")}</h3><ul><li>Displays all images</li><li>Any images in the site DocumentLibrary will be displayed to users if users have permissions to view them</li></ul><hr><h3>${msg("label.viewmode.albums")}</h3><ul><li>Displays albums with an image stack effect</li><li>All folders that have the album aspect assigned, will show up as image stacks in the albums view</li><li>Any albums in the site DocumentLibrary will be displayed to users if they have permissions to view them</li></ul></div>
+                </div>
             </div>
          </div>
 
@@ -36,12 +39,15 @@
             <div class="yui-u first"><label for="${el}-singleAlbumNodeRef">${msg("label.singleAlbumNodeRef")}:</label></div>
             <div class="yui-u">
             	<input id="${el}-singleAlbumNodeRef" type="hidden" name="singleAlbumNodeRef" value=""/>
-            	<select id="${el}-singleAlbumNodeRef-list" onChange="document.getElementById('${el}-singleAlbumNodeRef').value = this.options[this.selectedIndex].value;">
+            	<select class="inline-display" id="${el}-singleAlbumNodeRef-list" onChange="document.getElementById('${el}-singleAlbumNodeRef').value = this.options[this.selectedIndex].value;">
             		<option value="all">${msg("label.album.all")}</option>
             		<#list albums as album>
             		<option value="${album.nodeRef}">${album.name}</option>
 					</#list>
 	           	</select>
+	           	<div class="dashlet-plus-help-tip">
+                    <div><h3>${msg("label.singleAlbumNodeRef")}</h3><ul><li>Images can be filtered by specifying one single album. By default, all images and albums are displayed</li></ul></div>
+                </div>
             </div>
          </div>	
          <#-- <div class="yui-gd">
