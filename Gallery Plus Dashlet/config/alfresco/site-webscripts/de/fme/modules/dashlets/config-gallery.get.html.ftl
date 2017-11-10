@@ -19,7 +19,7 @@
             		<option value="albums">${msg("label.viewmode.albums")}</option>
 	           	</select>
 	            <div class="dashlet-plus-help-tip">
-                    <div><h3>${msg("label.viewmode.images")}</h3><ul><li>Displays all images</li><li>Any images in the site DocumentLibrary will be displayed to users if users have permissions to view them</li></ul><hr><h3>${msg("label.viewmode.albums")}</h3><ul><li>Displays albums with an image stack effect</li><li>All folders that have the album aspect assigned, will show up as image stacks in the albums view</li><li>Any albums in the site DocumentLibrary will be displayed to users if they have permissions to view them</li></ul></div>
+                    <div><h3 style="text-decoration:underline;">${msg("label.viewmode.images")}</h3><p>Displays all images in the site document library that the user is permitted to view.</p><h3 style="text-decoration:underline;">${msg("label.viewmode.albums")}</h3><p>Displays all the Albums in the site document library.</p><h3 style="text-decoration:underline;">To create an Album</h3><ul><li>Create a folder containing images in the site document library</li><li>Select "Manage Aspects" from the list of actions for the folder</li><li>Add the "Album for the image gallery" Aspect</li><li>The folder is now an Album</li></ul></div>
                 </div>
             </div>
          </div>
@@ -46,7 +46,7 @@
 					</#list>
 	           	</select>
 	           	<div class="dashlet-plus-help-tip">
-                    <div><h3>${msg("label.singleAlbumNodeRef")}</h3><ul><li>Images can be filtered by specifying one single album. By default, all images and albums are displayed</li></ul></div>
+                    <div><h3 style="text-decoration:underline;">${msg("label.singleAlbumNodeRef")}</h3><p>Images can be filtered by specifying one single album. By default, all images and albums are displayed.</p></div>
                 </div>
             </div>
          </div>	
